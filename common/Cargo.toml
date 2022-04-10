@@ -1,0 +1,18 @@
+[package]
+name = "configer-common"
+version = "0.1.0"
+license = "GPLv3"
+edition = "2021"
+description = "ConfigerIO config generation tool"
+keywords = [ "service", "config", "configuration" ]
+repository = "https://github.com/PoiXson/ConfigerIO-mirror.git"
+
+[dependencies]
+log        = "*"
+env_logger = "*"
+chrono     = "*"
+handlebars = "*"
+duct       = "*"
+tempfile   = "*"
+serde = { version="1", features=["derive"] }
+serde_json = "*"
