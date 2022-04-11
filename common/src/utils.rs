@@ -58,3 +58,10 @@ pub fn new_temp_file() -> (String, NamedTempFile) {
 			.tempfile().unwrap();
 	( tmp.path().display().to_string(), tmp )
 }
+
+
+
+pub fn get_timestamp() -> String {
+	let now = chrono::Local::now();
+	now.to_rfc2822()
+}
