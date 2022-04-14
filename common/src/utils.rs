@@ -101,6 +101,6 @@ pub fn new_temp_file() -> (String, NamedTempFile) {
 
 
 pub fn get_timestamp() -> String {
-	let now = chrono::Local::now();
-	now.to_rfc2822()
+	chrono::Local::now()
+		.to_rfc2822()
 }
