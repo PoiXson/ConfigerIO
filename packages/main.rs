@@ -1,15 +1,16 @@
 
-use log::{ Level, log_enabled, debug };
+use log::{ Level, log_enabled, info };
+
 use clap::{ Parser, Subcommand };
 
 use configer_common::utils;
-use configer_common::file_finder::FileFinder;
+use configer_common::find_configer_config;
+use configer_common::display::{ display_cat, display_diff };
 
 mod configuration;
 use crate::configuration::Configuration;
 
-mod generation;
-use crate::generation::cmd_generate;
+mod playbook;
 
 
 
@@ -70,48 +71,37 @@ fn main() {
 	// modified log level
 	utils::modified_verbose_level( args.verbose.log_level() );
 	if log_enabled!(Level::Info) {
-		if args.dry   { println!(" [DRY] "  ); }
-		if args.force { println!(" [FORCE] "); }
-	}
-	if log_enabled!(Level::Info) {
 		log_panics::init();
+	}
+	if log_enabled!(Level::Warn) {
+		if args.dry   { if log_enabled!(Level::Info) { info!("DRY"  ); } else { println!(" [DRY] "  ); }}
+		if args.force { if log_enabled!(Level::Info) { info!("FORCE"); } else { println!(" [FORCE] "); }}
 	}
 	// handle command
 	match &args.command {
 
 		Some(Commands::Generate { backup, install }) => {
-			let cfg: Configuration = load_config();
-			cmd_generate(
-				cfg,
-				args.dry, args.force,
-				args.cat, args.diff,
-				*backup, *install
-			);
+if *backup || *install {
+	todo!("UNFINISHED");
+}
+			let path_tpl = configer_common::DEFAULT_PATH_TEMPLATES.to_string();
+			// load config
+			let cfg: Configuration =
+				Configuration::load(
+					find_configer_config()
+				);
+			let book = playbook::generate_configs(cfg, path_tpl.clone());
+			// --diff
+			if args.diff {
+				display_diff(&book);
+			}
+			// --cat
+			if args.cat {
+				display_cat(&book);
+			}
 		},
 
 		None => { },
 
 	};
-}
-
-
-
-fn load_config() -> Configuration {
-	let mut file: String = std::env::var("CONFIGER_CONFIG").unwrap_or("".to_string());
-	if file.is_empty() {
-		file = FileFinder::new()
-			.file("/etc/configer.json" .to_string())
-			.file("/var/configer.json" .to_string())
-			.file("/configer.json"     .to_string())
-			.file("/home/configer.json".to_string())
-			.found()
-	}
-	if file.is_empty() {
-		panic!("Failed to find config file");
-	}
-	debug!("Using config: {}", file);
-	if ! std::path::Path::new(&file).is_file() {
-		panic!("Config file not found: {}", file);
-	}
-	Configuration::load(file)
 }

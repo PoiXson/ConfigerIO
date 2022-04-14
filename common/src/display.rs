@@ -46,7 +46,7 @@ pub fn display_diff(book: &Vec<GenFile>) {
 		'CHANGE_LOOP:
 		for change in diff.iter_all_changes() {
 			match change.tag() {
-				ChangeTag::Equal  => {
+				ChangeTag::Equal => {
 					ln_a += 1; ln_b += 1;
 					continue 'CHANGE_LOOP;
 				},
