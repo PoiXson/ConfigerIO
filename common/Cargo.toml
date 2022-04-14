@@ -10,9 +10,11 @@ repository = "https://github.com/PoiXson/ConfigerIO-mirror.git"
 [dependencies]
 log        = "*"
 env_logger = "*"
+colored    = "*"
 chrono     = "*"
 handlebars = "*"
 duct       = "*"
+similar    = "*"
 tempfile   = "*"
 serde = { version="1", features=["derive"] }
 serde_json = "*"
