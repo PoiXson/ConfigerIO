@@ -49,6 +49,45 @@ fn test_safe_file_from_path() {
 
 
 
+pub fn remove_white_space_lines(source: String) -> String {
+	let mut result = String::new();
+	let mut first = true;
+	for line in source.lines() {
+		if first { first = false; } else {
+			result.push_str("\n");
+		}
+		result.push_str( line.trim() );
+	}
+	result
+}
+
+pub fn remove_head_comments(source: String) -> (u32, String) {
+	let mut result = String::new();
+	let mut first = true;
+	let mut head = true;
+	let mut removed: u32 = 0;
+	'LINES_LOOP:
+	for line in source.lines() {
+		if head {
+			if line.is_empty()
+			|| line.starts_with("//")
+			|| line.starts_with("#")
+			|| line.starts_with(";") {
+				removed += 1;
+				continue 'LINES_LOOP;
+			}
+			head = false;
+		}
+		if first { first = false; } else {
+			result.push_str("\n");
+		}
+		result.push_str(line);
+	}
+	(removed, result)
+}
+
+
+
 /// Creates a new temp file /tmp/tmp.xxxxxxxxxx
 pub fn new_temp_file() -> (String, NamedTempFile) {
 	let tmp: NamedTempFile =
