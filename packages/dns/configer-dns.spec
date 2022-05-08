@@ -1,0 +1,62 @@
+# Generated: Sat May  7 11:03:15 PM EDT 2022
+Name    : configer-dns
+Version : 0.1
+Release : 1
+Summary : DNS module for ConfigerIO
+
+BuildArch : x86_64
+Packager  : PoiXson <support@poixson.com>
+License   : GPLv3
+URL       : https://configer.io
+
+Prefix: %{_datadir}/configer
+%define _rpmfilename  %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm
+
+%description
+DNS module for ConfigerIO
+
+
+
+### Install ###
+%install
+echo
+echo "Install.."
+
+# delete existing rpm's
+%{__rm} -fv --preserve-root  "%{_rpmdir}/%{name}-"*.rpm
+
+# create dirs
+%{__install} -d -m 0755  \
+	"%{buildroot}%{_bindir}/"                     \
+	"%{buildroot}%{_sysconfdir}/systemd/system/"  \
+	"%{buildroot}%{prefix}/"                      \
+	"%{buildroot}%{prefix}/templates/dns/"        \
+		|| exit 1
+
+# copy files
+\pushd "%{_topdir}/../" >/dev/null || exit 1
+	%{__install} -m 0755  \
+		"target/debug/configer-dns"  \
+		"%{buildroot}%{_bindir}/"    \
+			|| exit 1
+	# templates
+	%{__install} -m 0755  \
+		"templates/"*.tpl                       \
+		"%{buildroot}%{prefix}/templates/dns/"  \
+			|| exit 1
+	# systemd
+	%{__install} -m 0755  \
+		"named.service"                               \
+		"%{buildroot}%{_sysconfdir}/systemd/system/"  \
+			|| exit 1
+\popd >/dev/null
+
+
+
+### Files ###
+%files
+%defattr(0400, configer, configer, 0500)
+%attr(0500,root,root)  %{_bindir}/configer-dns
+%{_sysconfdir}/systemd/system/named.service
+%{prefix}/templates/dns/etc-named.conf.tpl
+%{prefix}/templates/dns/etc-named-domain.zone.tpl
