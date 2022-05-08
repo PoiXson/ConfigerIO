@@ -1,0 +1,17 @@
+[package]
+name = "configer-mail"
+version = "0.1.0"
+license = "GPLv3"
+edition = "2021"
+description = "ConfigerIO config generation tool"
+keywords = [ "email", "mail", "postfix" ]
+repository = "https://github.com/PoiXson/ConfigerIO-mirror.git"
+
+[dependencies]
+log        = "*"
+log-panics = "*"
+configer-common = { path="../../common/" }
+clap = { version="3", features=["derive"] }
+clap-verbosity-flag = "*"
+serde = { version="1", features=["derive"] }
+serde_json = "*"
