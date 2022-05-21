@@ -1,0 +1,25 @@
+[Unit]
+Description=Postfix Mail Transport Agent
+After=network.target
+After=syslog.target
+Conflicts=sendmail.service
+Conflicts=exim.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+PIDFile=/run/postfix.pid
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=true
+
+EnvironmentFile=-/etc/sysconfig/network
+CapabilityBoundingSet=~ CAP_NET_ADMIN CAP_SYS_ADMIN CAP_SYS_BOOT CAP_SYS_MODULE
+ExecStartPre=/usr/bin/configer-mail gen --backup --install
+ExecStartPre=-/usr/libexec/postfix/aliasesdb
+ExecStartPre=-/usr/libexec/postfix/chroot-update
+ExecStart=/usr/sbin/postfix start
+ExecReload=/usr/sbin/postfix reload
+ExecStop=/usr/sbin/postfix stop
