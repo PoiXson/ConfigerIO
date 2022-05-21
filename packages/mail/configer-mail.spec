@@ -1,7 +1,7 @@
-# Generated: Sat May  7 11:04:55 PM EDT 2022
+# Generated: Sat May 21 04:55:00 PM EDT 2022
 Name    : configer-mail
-Version : 0.1
-Release : 1
+Version : 0.1.%{?build_number}%{!?build_number:x}
+Release : 1%{dist}
 Summary : Postfix module for ConfigerIO
 
 BuildArch : x86_64

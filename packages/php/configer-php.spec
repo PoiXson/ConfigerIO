@@ -1,7 +1,7 @@
-# Generated: Sat May  7 11:03:49 PM EDT 2022
+# Generated: Sat May 21 04:53:52 PM EDT 2022
 Name    : configer-php
-Version : 0.1
-Release : 1
+Version : 0.1.%{?build_number}%{!?build_number:x}
+Release : 1%{dist}
 Summary : PHP-FPM module for ConfigerIO
 
 BuildArch : x86_64

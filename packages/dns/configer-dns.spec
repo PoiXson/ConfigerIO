@@ -1,7 +1,7 @@
-# Generated: Sat May  7 11:03:15 PM EDT 2022
+# Generated: Sat May 21 04:53:18 PM EDT 2022
 Name    : configer-dns
-Version : 0.1
-Release : 1
+Version : 0.1.%{?build_number}%{!?build_number:x}
+Release : 1%{dist}
 Summary : DNS module for ConfigerIO
 
 BuildArch : x86_64
