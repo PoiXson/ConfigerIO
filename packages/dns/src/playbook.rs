@@ -15,9 +15,13 @@ use crate::configuration::Configuration;
 
 
 
+const SERVICE_TITLE: &str = "bind/named";
+
+
+
 pub fn generate_configs(cfg: Configuration, tpl_path: String) -> Vec<GenFile> {
 	let mut book: Vec<GenFile> = Vec::new();
-	info!("Generating configs for bind/named");
+	info!("Generating configs for {}", SERVICE_TITLE);
 	let timestamp = get_timestamp();
 
 	// /etc/named.conf
@@ -42,22 +46,19 @@ pub fn generate_configs(cfg: Configuration, tpl_path: String) -> Vec<GenFile> {
 		info!("Generated: {}", dest_file.clone());
 	}
 
-	// /etc/named/domains.zone
+	// /etc/named/domain.zone
 	{
 		let tpl_file = "etc-named-domain.zone.tpl".to_string();
 		for (domain, zone) in cfg.internal {
 			let dest_file = format!("/etc/named/{}.zone", domain);
-
 //TODO
-book.push(
-	GenFile {
-		dest_file: dest_file.clone(),
-		tpl_file: tpl_file.to_string(),
-		rendered: "".to_string(),
-	}
-);
-
-
+			book.push(
+				GenFile {
+					dest_file: dest_file.clone(),
+					tpl_file: tpl_file.to_string(),
+					rendered: "".to_string(),
+				}
+			);
 		}
 	}
 
