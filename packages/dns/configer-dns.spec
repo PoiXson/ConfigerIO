@@ -1,4 +1,4 @@
-# Generated: Sat May 21 04:53:18 PM EDT 2022
+# Generated: Tue May 24 02:12:55 AM EDT 2022
 Name    : configer-dns
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -41,15 +41,9 @@ echo "Install.."
 		%{__install} -m 0755  "target/debug/configer-dns"    "%{buildroot}%{_bindir}/"  || exit 1
 	fi
 	# templates
-	%{__install} -m 0755  \
-		"templates/"*.tpl                       \
-		"%{buildroot}%{prefix}/templates/dns/"  \
-			|| exit 1
+	%{__install} -m 0755  "templates/"*.tpl  "%{buildroot}%{prefix}/templates/dns/"  || exit 1
 	# systemd
-	%{__install} -m 0755  \
-		"named.service"                               \
-		"%{buildroot}%{_sysconfdir}/systemd/system/"  \
-			|| exit 1
+	%{__install} -m 0755  "named.service"  "%{buildroot}%{_sysconfdir}/systemd/system/"  || exit 1
 \popd >/dev/null
 
 
