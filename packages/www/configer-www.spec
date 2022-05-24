@@ -35,10 +35,11 @@ echo "Install.."
 
 # copy files
 \pushd "%{_topdir}/../" >/dev/null || exit 1
-	%{__install} -m 0755  \
-		"target/debug/configer-www"  \
-		"%{buildroot}%{_bindir}/"    \
-			|| exit 1
+	if [[ -d target/release/ ]]; then
+		%{__install} -m 0755  "target/release/configer-www"  "%{buildroot}%{_bindir}/"  || exit 1
+	else
+		%{__install} -m 0755  "target/debug/configer-www"    "%{buildroot}%{_bindir}/"  || exit 1
+	fi
 	# templates
 	%{__install} -m 0755  \
 		"templates/"*.tpl                       \
