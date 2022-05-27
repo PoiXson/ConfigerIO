@@ -12,7 +12,7 @@ Type=forking
 PIDFile=/run/nginx.pid
 PrivateTmp=true
 
-ExecStartPre=/usr/bin/configer-www gen --backup --install
+ExecStartPre=/usr/bin/configer-www gen -vvv --backup --install
 ExecStartPre=/usr/bin/rm -f /run/nginx.pid
 ExecStartPre=/usr/sbin/nginx -t
 ExecStart=/usr/sbin/nginx

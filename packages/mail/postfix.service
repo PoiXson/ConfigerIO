@@ -17,7 +17,7 @@ ProtectSystem=true
 
 EnvironmentFile=-/etc/sysconfig/network
 CapabilityBoundingSet=~ CAP_NET_ADMIN CAP_SYS_ADMIN CAP_SYS_BOOT CAP_SYS_MODULE
-ExecStartPre=/usr/bin/configer-mail gen --backup --install
+ExecStartPre=/usr/bin/configer-mail gen -vvv --backup --install
 ExecStartPre=-/usr/libexec/postfix/aliasesdb
 ExecStartPre=-/usr/libexec/postfix/chroot-update
 ExecStart=/usr/sbin/postfix start
