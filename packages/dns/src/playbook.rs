@@ -15,7 +15,8 @@ use crate::configuration::Configuration;
 
 
 
-const SERVICE_TITLE: &str = "bind/named";
+pub const SERVICE_NAME:  &str = "dns";
+pub const SERVICE_TITLE: &str = "bind/named";
 
 
 

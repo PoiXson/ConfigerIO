@@ -15,7 +15,8 @@ use crate::configuration::Configuration;
 
 
 
-const SERVICE_TITLE: &str = "php-fpm";
+pub const SERVICE_NAME:  &str = "php";
+pub const SERVICE_TITLE: &str = "php-fpm";
 
 
 

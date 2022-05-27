@@ -15,7 +15,8 @@ use crate::configuration::Configuration;
 
 
 
-const SERVICE_TITLE: &str = "mail/postfix";
+pub const SERVICE_NAME:  &str = "mail";
+pub const SERVICE_TITLE: &str = "postfix/dovcot";
 
 
 
