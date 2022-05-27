@@ -1,29 +1,5 @@
 
-use log::Level;
-
 use tempfile::NamedTempFile;
-
-
-
-pub fn modified_verbose_level(val: Option<Level>) {
-	let lvl = match val {
-		// default
-		Some(log::Level::Error) => log::Level::Warn.to_level_filter(),
-		// -v
-		Some(log::Level::Warn)  => log::Level::Info.to_level_filter(),
-		// -vv
-		Some(log::Level::Info)  => log::Level::Debug.to_level_filter(),
-		// -vvv
-		Some(log::Level::Debug) => log::Level::Trace.to_level_filter(),
-		// -vvvv
-		Some(log::Level::Trace) => log::Level::Trace.to_level_filter(),
-		None => log::LevelFilter::Off,
-	};
-	env_logger::Builder::new()
-		//.filter_level(args.verbose.log_level_filter())
-		.filter_level(lvl)
-		.init();
-}
 
 
 
