@@ -1,5 +1,6 @@
 
-use log::{ debug };
+use log::debug;
+
 use std::fs::read_to_string;
 use handlebars::Handlebars;
 
@@ -34,23 +35,57 @@ pub fn load_template(tpl_path: String, tpl_file: String) -> Handlebars<'static> 
 
 
 
-pub fn find_configer_config() -> String {
-	let mut file: String = std::env::var("CONFIGER_CONFIG")
-		.unwrap_or("".to_string());
+pub fn find_configer_file(arg_file: &Option<String>) -> String {
+	// --configer-file
+	let file: String = match arg_file {
+		Some(f) => f.clone(),
+		_ => {
+			// env CONFIGER_FILE
+			match std::env::var("CONFIGER_FILE") {
+				Ok(f) => f.clone(),
+				Err(_) => {
+					// default paths
+					file_finder::FileFinder::new()
+						.file("/etc/configer.json" .to_string())
+						.file("/var/configer.json" .to_string())
+						.file("/configer.json"     .to_string())
+						.file("/home/configer.json".to_string())
+						.found().clone()
+				},
+			}
+		},
+	};
 	if file.is_empty() {
-		file = file_finder::FileFinder::new()
-			.file("/etc/configer.json" .to_string())
-			.file("/var/configer.json" .to_string())
-			.file("/configer.json"     .to_string())
-			.file("/home/configer.json".to_string())
-			.found()
+		panic!("Failed to find configer.json file");
 	}
-	if file.is_empty() {
-		panic!("Failed to find configer config file");
-	}
-	debug!("Using config: {}", file);
 	if ! std::path::Path::new(&file).is_file() {
-		panic!("Config file not found: {}", file);
+		panic!("Config file not found: {}", file.clone());
 	}
-	file
+	debug!("Using config: {}", file.clone());
+	file.clone()
+}
+
+pub fn find_templates_path(arg_path: &Option<String>) -> String {
+	// --tpl-path
+	let path: String = match arg_path {
+		Some(p) => p.clone(),
+		_ => {
+			// env CONFIGER_TPL_PATH
+			match std::env::var("CONFIGER_TPL_PATH") {
+				Ok(p) => p.clone(),
+				Err(_) => {
+					// default path
+					DEFAULT_TEMPLATES_PATH.to_string()
+				}
+			}
+		},
+	};
+	if path.is_empty() {
+		panic!("Failed to find configer templates path");
+	}
+	if ! std::path::Path::new(&path).is_dir() {
+		panic!("Templates path not found: {}", path.clone());
+	}
+	debug!("Using templates: {}", path.clone());
+	path.clone()
 }
