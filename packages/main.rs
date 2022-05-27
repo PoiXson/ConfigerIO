@@ -19,9 +19,6 @@ mod playbook;
 #[clap(subcommand_required=true, arg_required_else_help=true)]
 struct Args {
 
-	#[clap(flatten)]
-	verbose: clap_verbosity_flag::Verbosity,
-
 	/// Perform a trial run with no changes made
 	#[clap(short, long, global=true, display_order=1)]
 	dry: bool,
@@ -37,6 +34,14 @@ struct Args {
 	/// Display differences between the existing and newly generated config files
 	#[clap(short='D', long, global=true, display_order=4)]
 	diff: bool,
+
+	/// More output per occurrence
+	#[clap(short, long, global=true, parse(from_occurrences), display_order=25)]
+	verbose: i8,
+
+	/// Less output per occurrence
+	#[clap(short, long, global=true, parse(from_occurrences), display_order=26)]
+	quiet: i8,
 
 	#[clap(subcommand)]
 	command: Option<Commands>,
@@ -68,8 +73,35 @@ enum Commands {
 
 fn main() {
 	let args: Args = Args::parse();
-	// modified log level
-	utils::modified_verbose_level( args.verbose.log_level() );
+	// log verbose/quiet
+	let mut verbosity: i8 = args.verbose - args.quiet;
+	{
+		let lvl = match verbosity {
+			// -qq
+			-1=> Level::Error.to_level_filter(),
+			// -q
+			0 => Level::Warn.to_level_filter(),
+			// -v
+			1 => Level::Info.to_level_filter(),
+			// -vv
+			2 => Level::Debug.to_level_filter(),
+			_ => {
+				// -qqq
+				if verbosity < -1 {
+					log::LevelFilter::Off
+				} else
+				// -vvv
+				if verbosity > 2 {
+					Level::Trace.to_level_filter()
+				} else {
+					Level::Warn.to_level_filter()
+				}
+			},
+		};
+		env_logger::Builder::new()
+			.filter_level(lvl)
+			.init();
+	}
 	if log_enabled!(Level::Info) {
 		log_panics::init();
 	}
