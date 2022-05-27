@@ -1,9 +1,10 @@
-# Generated: Tue May 24 02:14:41 AM EDT 2022
+# Generated: Fri May 27 02:32:02 AM EDT 2022
 Name    : configer-www
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
 Summary : Nginx module for ConfigerIO
 
+Requires: nginx
 BuildArch : x86_64
 Packager  : PoiXson <support@poixson.com>
 License   : GPLv3

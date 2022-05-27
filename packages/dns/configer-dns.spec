@@ -1,9 +1,10 @@
-# Generated: Tue May 24 02:12:55 AM EDT 2022
+# Generated: Fri May 27 02:30:47 AM EDT 2022
 Name    : configer-dns
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
 Summary : DNS module for ConfigerIO
 
+Requires: bind
 BuildArch : x86_64
 Packager  : PoiXson <support@poixson.com>
 License   : GPLv3

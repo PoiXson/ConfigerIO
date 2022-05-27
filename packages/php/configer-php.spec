@@ -1,9 +1,10 @@
-# Generated: Tue May 24 02:16:37 AM EDT 2022
+# Generated: Fri May 27 02:31:24 AM EDT 2022
 Name    : configer-php
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
 Summary : PHP-FPM module for ConfigerIO
 
+Requires: php81-php
 BuildArch : x86_64
 Packager  : PoiXson <support@poixson.com>
 License   : GPLv3
