@@ -65,9 +65,9 @@ pub fn find_configer_file(arg_file: &Option<String>) -> String {
 	file.clone()
 }
 
-pub fn find_templates_path(arg_path: &Option<String>) -> String {
+pub fn find_templates_path(arg_path: &Option<String>, service_name: String) -> String {
 	// --tpl-path
-	let path: String = match arg_path {
+	let mut path: String = match arg_path {
 		Some(p) => p.clone(),
 		_ => {
 			// env CONFIGER_TPL_PATH
@@ -85,6 +85,20 @@ pub fn find_templates_path(arg_path: &Option<String>) -> String {
 	}
 	if ! std::path::Path::new(&path).is_dir() {
 		panic!("Templates path not found: {}", path.clone());
+	}
+	// detect service subdir
+	{
+		let p = format!("{}/{}", &path, &service_name);
+		if std::path::Path::new(&p).is_dir() {
+			path = p.clone();
+		}
+	}
+	// detect templates/ dir
+	{
+		let p = format!("{}/templates", &path);
+		if std::path::Path::new(&p).is_dir() {
+			path = p.clone();
+		}
 	}
 	debug!("Using templates: {}", path.clone());
 	path.clone()

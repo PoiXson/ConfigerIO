@@ -124,7 +124,7 @@ fn main() {
 			// configer.json file
 			let cfg_file_str = configer_common::find_configer_file(configer_file);
 			// templates path
-			let tpl_path_str = configer_common::find_templates_path(tpl_path);
+			let tpl_path_str = configer_common::find_templates_path(tpl_path, playbook::SERVICE_NAME.to_string());
 			// load config
 			let cfg: Configuration = Configuration::load( cfg_file_str );
 			// generate configs
