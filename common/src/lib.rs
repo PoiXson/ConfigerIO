@@ -9,8 +9,7 @@ pub mod display;
 
 
 
-//TODO
-pub const DEFAULT_PATH_TEMPLATES: &str = "/zcode/web/ConfigerIO/packages/dns/templates";
+pub const DEFAULT_TEMPLATES_PATH: &str = "/usr/share/configer/templates";
 
 
 
