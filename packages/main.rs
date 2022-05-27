@@ -1,10 +1,10 @@
 
-use log::{ Level, log_enabled, info };
+use log::{ Level, log_enabled };
+use log::info;
 
 use clap::{ Parser, Subcommand };
 
 use configer_common::utils;
-use configer_common::find_configer_config;
 use configer_common::display::{ display_cat, display_diff };
 
 mod configuration;
@@ -58,11 +58,11 @@ enum Commands {
 	Generate {
 
 		/// Archive the existing config files
-		#[clap(short, long, display_order=1)]
+		#[clap(short, long, display_order=11)]
 		backup: bool,
 
 		/// Install the generated config files
-		#[clap(short, long, display_order=2)]
+		#[clap(short, long, display_order=12)]
 		install: bool,
 
 		/// Set the path to configer.json
