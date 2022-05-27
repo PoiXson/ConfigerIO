@@ -65,6 +65,14 @@ enum Commands {
 		#[clap(short, long, display_order=2)]
 		install: bool,
 
+		/// Set the path to configer.json
+		#[clap(long, takes_value=true, value_name="json", alias="configer-config", display_order=13)]
+		configer_file: Option<String>,
+
+		/// Set the path to template files
+		#[clap(long, takes_value=true, value_name="path", display_order=14)]
+		tpl_path: Option<String>,
+
 	},
 
 }
@@ -112,24 +120,30 @@ fn main() {
 	// handle command
 	match &args.command {
 
-		Some(Commands::Generate { backup, install }) => {
-if *backup || *install {
-	todo!("UNFINISHED");
-}
-			let path_tpl = configer_common::DEFAULT_PATH_TEMPLATES.to_string();
+		Some(Commands::Generate { backup, install, configer_file, tpl_path }) => {
+			// configer.json file
+			let cfg_file_str = configer_common::find_configer_file(configer_file);
+			// templates path
+			let tpl_path_str = configer_common::find_templates_path(tpl_path);
 			// load config
-			let cfg: Configuration =
-				Configuration::load(
-					find_configer_config()
-				);
-			let book = playbook::generate_configs(cfg, path_tpl.clone());
-			// --diff
-			if args.diff {
-				display_diff(&book);
+			let cfg: Configuration = Configuration::load( cfg_file_str );
+			// generate configs
+			let book = playbook::generate_configs(cfg, tpl_path_str.clone());
+			if *install {
+				// backup configs
+				if *backup {
+todo!("UNFINISHED BACKUP");
+				}
+				// install configs
+todo!("UNFINISHED INSTALL");
 			}
 			// --cat
 			if args.cat {
 				display_cat(&book);
+			}
+			// --diff
+			if args.diff {
+				display_diff(&book);
 			}
 		},
 
