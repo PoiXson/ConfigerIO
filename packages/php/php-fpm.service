@@ -1,0 +1,19 @@
+[Unit]
+Description=The PHP FastCGI Process Manager
+After=network.target
+After=remote-fs.target
+After=syslog.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=notify
+PIDFile=/run/php.pid
+RuntimeDirectory=php-fpm
+RuntimeDirectoryMode=0755
+PrivateTmp=true
+
+ExecStartPre=/usr/bin/configer-php gen -vvv --backup --install
+ExecStart=/usr/sbin/php-fpm --nodaemonize
+ExecReload=/bin/kill -USR2 $MAINPID
