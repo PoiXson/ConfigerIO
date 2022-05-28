@@ -5,6 +5,13 @@ use std::fs::read_to_string;
 use std::io::Write;
 use handlebars::Handlebars;
 
+use tempfile::NamedTempFile;
+
+use crate::utils::{
+	safe_file_from_path,
+	new_temp_file,
+};
+
 pub mod utils;
 pub mod file_finder;
 pub mod display;
@@ -22,22 +29,40 @@ pub const DEFAULT_CONFIG_PATHS: &'static [&str] = &[
 
 
 #[derive(Debug)]
-pub struct GenFile {
+pub struct FileDAO {
 	pub dest_file: String,
 	pub tpl_file: String,
-	pub rendered: String,
+	pub tmp_file: String,
+	pub tmp_handle: NamedTempFile,
 }
 
-
-
-pub fn load_template(tpl_path: String, tpl_file: String) -> Handlebars<'static> {
-	let file = format!("{}/{}", tpl_path.clone(), tpl_file.clone());
-	let contents = read_to_string(file.clone())
-		.unwrap_or_else(|e| panic!("Failed to load template file: {} {}", file, e));
-	let mut tpl = Handlebars::new();
-	tpl.register_template_string(&tpl_file, contents.clone())
-		.unwrap_or_else(|e| panic!("Failed to parse template file: {} {}", file, e));
-	tpl
+impl FileDAO {
+	pub fn new(tpl_path: &str, dest_file: String) -> Self {
+		let tpl_file =
+			format!("{}/{}.tpl",
+				tpl_path,
+				safe_file_from_path(dest_file.clone())
+			);
+		if ! std::path::Path::new(&tpl_file).is_file() {
+			panic!("Template file not found: {}", tpl_file.clone());
+		}
+		let (tmp_file, tmp_handle) = new_temp_file();
+		trace!("Temp: {} Rep: {}", tmp_file.clone(), dest_file.clone());
+		Self {
+			dest_file: dest_file.clone(),
+			tpl_file: tpl_file.clone(),
+			tmp_file: tmp_file.clone(),
+			tmp_handle,
+		}
+	}
+	pub fn get<'a>(book: &'a Vec<FileDAO>, dest_file: &'a str) -> &'a FileDAO {
+		for dao in book {
+			if dao.dest_file == dest_file {
+				return &dao;
+			}
+		}
+		panic!("FileDAO not found for: {}", dest_file);
+	}
 }
 
 
