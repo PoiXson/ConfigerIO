@@ -8,10 +8,9 @@ keywords = [ "email", "mail", "postfix" ]
 repository = "https://github.com/PoiXson/ConfigerIO-mirror.git"
 
 [dependencies]
-log        = "*"
-log-panics = "*"
-env_logger = "*"
 configer-common = { path="../../common/" }
+log = "*"
+log-panics = "*"
 clap = { version="3", features=["derive"] }
 serde = { version="1", features=["derive"] }
 serde_json = "*"

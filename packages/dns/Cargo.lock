@@ -134,6 +134,7 @@ dependencies = [
  "chrono",
  "colored",
  "duct",
+ "env_logger",
  "handlebars",
  "log",
  "serde",
@@ -148,7 +149,6 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "configer-common",
- "env_logger",
  "log",
  "log-panics",
  "serde",

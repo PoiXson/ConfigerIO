@@ -9,6 +9,7 @@ repository = "https://github.com/PoiXson/ConfigerIO-mirror.git"
 
 [dependencies]
 log        = "*"
+env_logger = "*"
 colored    = "*"
 chrono     = "*"
 handlebars = "*"
