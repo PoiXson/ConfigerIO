@@ -1,16 +1,22 @@
 
-use log::{ Level, log_enabled };
-use log::info;
+use log::{ info, trace, warn };
+use log::Level;
+use log::log_enabled;
 
 use clap::{ Parser, Subcommand };
 
 use configer_common::utils::init_log_verbosity;
-use configer_common::utils;
 use configer_common::display::{ display_cat, display_diff };
+use configer_common::FileDAO;
+
+use crate::configuration::Configuration;
+use crate::playbook::{
+	load_templates,
+	generate_configs,
+	SERVICE_TITLE,
+};
 
 mod configuration;
-use crate::configuration::Configuration;
-
 mod playbook;
 
 
@@ -49,8 +55,6 @@ struct Args {
 
 }
 
-
-
 #[derive(Subcommand)]
 enum Commands {
 
@@ -82,15 +86,16 @@ enum Commands {
 
 fn main() {
 	let args: Args = Args::parse();
+
 	// log verbose/quiet
 	init_log_verbosity(args.verbose, args.quiet);
-	if log_enabled!(Level::Info) {
-		log_panics::init();
-	}
+
+	log_panics::init();
 	if log_enabled!(Level::Warn) {
 		if args.dry   { if log_enabled!(Level::Info) { info!("DRY"  ); } else { println!(" [DRY] "  ); }}
 		if args.force { if log_enabled!(Level::Info) { info!("FORCE"); } else { println!(" [FORCE] "); }}
 	}
+
 	// handle command
 	match &args.command {
 
@@ -100,17 +105,11 @@ fn main() {
 			// templates path
 			let tpl_path_str = configer_common::find_templates_path(tpl_path, playbook::SERVICE_NAME.to_string());
 			// load config
-			let cfg: Configuration = Configuration::load( cfg_file_str );
-			// generate configs
-			let book = playbook::generate_configs(cfg, tpl_path_str.clone());
-			if *install {
-				// backup configs
-				if *backup {
-todo!("UNFINISHED BACKUP");
-				}
-				// install configs
-todo!("UNFINISHED INSTALL");
-			}
+			let cfg: Configuration = Configuration::load( cfg_file_str.clone() );
+			// load templates
+			let book = load_templates(tpl_path_str.clone());
+			// generate config files
+			generate_configs(&cfg, &book);
 			// --cat
 			if args.cat {
 				display_cat(&book);
@@ -119,9 +118,38 @@ todo!("UNFINISHED INSTALL");
 			if args.diff {
 				display_diff(&book);
 			}
-		},
+			if *install {
+				// backup configs
+				if *backup {
+					if args.dry { warn!("Skipping backup.."); } else {
+						backup_configs(&book);
+					}
+				}
+				// install configs
+				if args.dry { warn!("Skipping install.."); } else {
+					install_configs(&book);
+				}
+			}
+		}
 
 		None => { },
 
 	};
+}
+
+
+
+pub fn backup_configs(_book: &Vec<FileDAO>) {
+	warn!("BACKUP UNFINISHED");
+}
+
+
+
+pub fn install_configs(book: &Vec<FileDAO>) {
+	info!("Installing configs for: {}", SERVICE_TITLE);
+	for dao in book {
+		trace!("Installing: {} From: {}", dao.dest_file.clone(), dao.tmp_file.clone());
+		std::fs::copy( dao.tmp_file.clone(), dao.dest_file.clone() )
+			.unwrap_or_else(|e| panic!("Failed to install config: {} {}", dao.dest_file.clone(), e));
+	}
 }
