@@ -63,7 +63,12 @@ fn test_safe_file_from_path() {
 pub fn remove_white_space_lines(source: String) -> String {
 	let mut result = String::new();
 	let mut first = true;
+	'LINES_LOOP:
 	for line in source.lines() {
+		let str = line.trim();
+		if str.is_empty() {
+			continue 'LINES_LOOP;
+		}
 		if first { first = false; } else {
 			result.push_str("\n");
 		}
