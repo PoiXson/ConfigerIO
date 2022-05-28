@@ -71,6 +71,13 @@ pub fn remove_white_space_lines(source: String) -> String {
 	}
 	result
 }
+#[test]
+fn test_remove_white_space_lines() {
+	let str = "\n\nAbc\n\ndef\n\n".to_string();
+	assert_eq!( remove_white_space_lines(str), "Abc\ndef") ;
+}
+
+
 
 pub fn remove_head_comments(source: String) -> (u32, String) {
 	let mut result = String::new();
@@ -95,6 +102,13 @@ pub fn remove_head_comments(source: String) -> (u32, String) {
 		result.push_str(line);
 	}
 	(removed, result)
+}
+#[test]
+fn test_remove_head_comments() {
+	let str = "\n\n# This\n// is a\n; comment\n\nAbc\n\ndef\n\n".to_string();
+	let (removed, result) = remove_head_comments(str);
+	assert_eq!(result, "Abc\n\ndef\n");
+	assert_eq!(removed, 6);
 }
 
 
