@@ -1,5 +1,40 @@
 
+use log::Level;
+
 use tempfile::NamedTempFile;
+
+
+
+pub fn init_log_verbosity(verbose: i8, quiet: i8) {
+	let verbosity: i8 = verbose - quiet;
+	{
+		let lvl = match verbosity {
+			// -qq
+			-1=> Level::Error.to_level_filter(),
+			// -q
+			0 => Level::Warn.to_level_filter(),
+			// -v
+			1 => Level::Info.to_level_filter(),
+			// -vv
+			2 => Level::Debug.to_level_filter(),
+			_ => {
+				// -qqq
+				if verbosity < -1 {
+					log::LevelFilter::Off
+				} else
+				// -vvv
+				if verbosity > 2 {
+					Level::Trace.to_level_filter()
+				} else {
+					Level::Warn.to_level_filter()
+				}
+			},
+		};
+		env_logger::Builder::new()
+			.filter_level(lvl)
+			.init();
+	}
+}
 
 
 

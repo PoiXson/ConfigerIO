@@ -4,6 +4,7 @@ use log::info;
 
 use clap::{ Parser, Subcommand };
 
+use configer_common::utils::init_log_verbosity;
 use configer_common::utils;
 use configer_common::display::{ display_cat, display_diff };
 
@@ -82,34 +83,7 @@ enum Commands {
 fn main() {
 	let args: Args = Args::parse();
 	// log verbose/quiet
-	let mut verbosity: i8 = args.verbose - args.quiet;
-	{
-		let lvl = match verbosity {
-			// -qq
-			-1=> Level::Error.to_level_filter(),
-			// -q
-			0 => Level::Warn.to_level_filter(),
-			// -v
-			1 => Level::Info.to_level_filter(),
-			// -vv
-			2 => Level::Debug.to_level_filter(),
-			_ => {
-				// -qqq
-				if verbosity < -1 {
-					log::LevelFilter::Off
-				} else
-				// -vvv
-				if verbosity > 2 {
-					Level::Trace.to_level_filter()
-				} else {
-					Level::Warn.to_level_filter()
-				}
-			},
-		};
-		env_logger::Builder::new()
-			.filter_level(lvl)
-			.init();
-	}
+	init_log_verbosity(args.verbose, args.quiet);
 	if log_enabled!(Level::Info) {
 		log_panics::init();
 	}
