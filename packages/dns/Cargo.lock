@@ -153,6 +153,7 @@ dependencies = [
  "log-panics",
  "serde",
  "serde_json",
+ "tempfile",
 ]
 
 [[package]]
