@@ -1,5 +1,5 @@
 
-use log::debug;
+use log::{ info, trace, error };
 
 use std::fs::read_to_string;
 use handlebars::Handlebars;
@@ -56,12 +56,14 @@ pub fn find_configer_file(arg_file: &Option<String>) -> String {
 		},
 	};
 	if file.is_empty() {
+		error!("File not found: configer.json");
 		panic!("Failed to find configer.json file");
 	}
 	if ! std::path::Path::new(&file).is_file() {
+		error!("File not found: {}", file.clone());
 		panic!("Config file not found: {}", file.clone());
 	}
-	debug!("Using config: {}", file.clone());
+	info!("Using config: {}", file.clone());
 	file.clone()
 }
 
@@ -81,9 +83,11 @@ pub fn find_templates_path(arg_path: &Option<String>, service_name: String) -> S
 		},
 	};
 	if path.is_empty() {
+		error!("Path not found to: templates");
 		panic!("Failed to find configer templates path");
 	}
 	if ! std::path::Path::new(&path).is_dir() {
+		error!("Path not found to: {}", path.clone());
 		panic!("Templates path not found: {}", path.clone());
 	}
 	// detect service subdir
@@ -100,6 +104,6 @@ pub fn find_templates_path(arg_path: &Option<String>, service_name: String) -> S
 			path = p.clone();
 		}
 	}
-	debug!("Using templates: {}", path.clone());
+	info!("Using templates: {}", path.clone());
 	path.clone()
 }
