@@ -16,7 +16,15 @@ pub fn display_cat(book: &Vec<GenFile>) {
 		println!();
 		println!(" ##########");
 		println!(" ### FILE: {}", dao.dest_file.clone());
-		println!("{}", &dao.rendered);
+		let rendered = match read_to_string(dao.tmp_file.clone()) {
+			Ok(d) => d,
+			Err(_) => {
+				error!("Missing file: {}", dao.tmp_file.clone());
+				error!("Representing: {}", dao.dest_file.clone());
+				panic!("Missing: {} Representing: {}", dao.tmp_file.clone(), dao.dest_file.clone());
+			},
+		};
+		println!("{}", rendered);
 	}
 	println!();
 }
@@ -28,17 +36,20 @@ pub fn display_diff(book: &Vec<GenFile>) {
 		let original = match read_to_string(dao.dest_file.clone()) {
 			Ok(d) => d,
 			Err(_) => {
-				println!(
-					"{} {}",
-					format!("Missing:").red(),
-					dao.dest_file.clone()
-				);
+				println!("{} {}", format!("Missing:").red(), dao.dest_file.clone());
+				continue 'BOOK_LOOP;
+			},
+		};
+		let rendered = match read_to_string(dao.tmp_file.clone()) {
+			Ok(d) => d,
+			Err(_) => {
+				println!("{} {}", format!("Missing:").red(), dao.dest_file.clone());
 				continue 'BOOK_LOOP;
 			},
 		};
 		// compare files
 		let (mut ln_a, diff_a) = remove_head_comments(remove_white_space_lines(original.clone()));
-		let (mut ln_b, diff_b) = remove_head_comments(remove_white_space_lines(dao.rendered.clone()));
+		let (mut ln_b, diff_b) = remove_head_comments(remove_white_space_lines(rendered.clone()));
 		let diff = TextDiff::from_lines(&diff_a, &diff_b);
 		let mut diffs: Vec<(char, u32, String)> = Vec::new();
 		let mut count_adds: u32 = 0;
