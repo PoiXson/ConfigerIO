@@ -16,8 +16,9 @@ use crate::FileDAO;
 pub fn display_cat(book: &Vec<FileDAO>) {
 	for dao in book.iter() {
 		println!();
-		println!(" ##########");
+		println!(" ########################################");
 		println!(" ### FILE: {}", dao.dest_file.clone());
+		println!(" ### TEMP: {}", dao.tmp_file.clone());
 		let rendered = match read_to_string(dao.tmp_file.clone()) {
 			Ok(d) => d,
 			Err(_) => {
