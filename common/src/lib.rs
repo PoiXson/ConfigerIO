@@ -2,6 +2,7 @@
 use log::{ info, trace, error };
 
 use std::fs::read_to_string;
+use std::io::Write;
 use handlebars::Handlebars;
 
 pub mod utils;
@@ -109,4 +110,26 @@ pub fn find_templates_path(arg_path: &Option<String>, service_name: String) -> S
 	}
 	info!("Using templates: {}", path.clone());
 	path.clone()
+}
+
+
+
+pub fn load_tpl(tpl_file: String) -> Handlebars<'static> {
+	let content = read_to_string(tpl_file.clone())
+		.unwrap_or_else(|e| panic!("Failed to load template file: {} {}", tpl_file, e));
+	let mut tpl = Handlebars::new();
+	tpl.register_template_string(&tpl_file, content.clone())
+		.unwrap_or_else(|e| panic!("Failed to parse template file: {} {}", tpl_file, e));
+	tpl
+}
+
+
+
+pub fn render_tpl(dao: &FileDAO, tpl: &Handlebars<'static>, tags: &serde_json::Value) -> String {
+	let rendered = tpl.render(&dao.tpl_file, &tags)
+		.unwrap_or_else(|e| panic!("Failed to render config: {} {}", dao.tpl_file.clone(), e));
+	// write temp file
+	let mut handle = dao.tmp_handle.reopen().unwrap();
+	handle.write_all( rendered.as_bytes() ).unwrap();
+	rendered
 }
