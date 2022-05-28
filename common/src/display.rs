@@ -1,4 +1,5 @@
 
+use log::error;
 use colored::Colorize;
 use std::fs::read_to_string;
 use similar::{ TextDiff, ChangeTag };
@@ -7,11 +8,12 @@ use crate::utils::{
 	remove_white_space_lines,
 	remove_head_comments,
 };
-use crate::GenFile;
+
+use crate::FileDAO;
 
 
 
-pub fn display_cat(book: &Vec<GenFile>) {
+pub fn display_cat(book: &Vec<FileDAO>) {
 	for dao in book.iter() {
 		println!();
 		println!(" ##########");
@@ -29,7 +31,9 @@ pub fn display_cat(book: &Vec<GenFile>) {
 	println!();
 }
 
-pub fn display_diff(book: &Vec<GenFile>) {
+
+
+pub fn display_diff(book: &Vec<FileDAO>) {
 	'BOOK_LOOP:
 	for dao in book.iter() {
 		println!();
