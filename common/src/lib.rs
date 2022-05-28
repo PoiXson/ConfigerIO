@@ -11,6 +11,12 @@ pub mod display;
 
 
 pub const DEFAULT_TEMPLATES_PATH: &str = "/usr/share/configer/templates";
+pub const DEFAULT_CONFIG_PATHS: &'static [&str] = &[
+	"/etc/configer.json",
+	"/var/configer.json",
+	"/configer.json",
+	"/home/configer.json",
+];
 
 
 
@@ -46,10 +52,7 @@ pub fn find_configer_file(arg_file: &Option<String>) -> String {
 				Err(_) => {
 					// default paths
 					file_finder::FileFinder::new()
-						.file("/etc/configer.json" .to_string())
-						.file("/var/configer.json" .to_string())
-						.file("/configer.json"     .to_string())
-						.file("/home/configer.json".to_string())
+						.files(DEFAULT_CONFIG_PATHS.to_vec())
 						.found().clone()
 				},
 			}
