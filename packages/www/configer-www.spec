@@ -1,4 +1,4 @@
-# Generated: Fri May 27 02:32:02 AM EDT 2022
+# Generated: Sun May 29 12:43:18 AM EDT 2022
 Name    : configer-www
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -55,4 +55,4 @@ echo "Install.."
 %attr(0500,root,root)  %{_bindir}/configer-www
 %{_sysconfdir}/systemd/system/nginx.service
 %{prefix}/templates/www/etc-nginx-nginx.conf.tpl
-%{prefix}/templates/www/etc-nginx-nginx-conf.d-user.conf.tpl
+%{prefix}/templates/www/etc-nginx-conf.d-name.conf.tpl

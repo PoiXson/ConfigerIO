@@ -1,4 +1,4 @@
-# Generated: Fri May 27 02:31:24 AM EDT 2022
+# Generated: Sun May 29 12:43:16 AM EDT 2022
 Name    : configer-php
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -56,4 +56,4 @@ echo "Install.."
 %{_sysconfdir}/systemd/system/php-fpm.service
 %{prefix}/templates/php/etc-php.ini.tpl
 %{prefix}/templates/php/etc-php-fpm.conf.tpl
-%{prefix}/templates/php/etc-php-fpm.d-user.conf.tpl
+%{prefix}/templates/php/etc-php-fpm.d-name.conf.tpl
