@@ -21,7 +21,7 @@ pub const SERVICE_TITLE: &str = "nginx";
 
 
 
-pub fn load_templates(tpl_path: String) -> Vec<FileDAO> {
+pub fn load_templates(cfg: &Configuration, tpl_path: String) -> Vec<FileDAO> {
 	let mut book: Vec<FileDAO> = Vec::new();
 	// /etc/nginx/nginx.conf
 	book.push(FileDAO::new( &tpl_path, "/etc/nginx/nginx.conf".to_string() ));

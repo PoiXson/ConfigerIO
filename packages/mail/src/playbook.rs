@@ -21,7 +21,7 @@ pub const SERVICE_TITLE: &str = "postfix/dovcot";
 
 
 
-pub fn load_templates(tpl_path: String) -> Vec<FileDAO> {
+pub fn load_templates(_cfg: &Configuration, tpl_path: String) -> Vec<FileDAO> {
 	let mut book: Vec<FileDAO> = Vec::new();
 	// /etc/postfix/main.cf
 	book.push(FileDAO::new( &tpl_path, "/etc/postfix/main.cf".to_string() ));

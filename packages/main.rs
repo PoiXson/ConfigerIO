@@ -107,7 +107,7 @@ fn main() {
 			// load config
 			let cfg: Configuration = Configuration::load( cfg_file_str.clone() );
 			// load templates
-			let book = load_templates(tpl_path_str.clone());
+			let book = load_templates(&cfg, tpl_path_str.clone());
 			// generate config files
 			generate_configs(&cfg, &book);
 			// --cat
