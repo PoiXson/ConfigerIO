@@ -30,8 +30,8 @@ pub fn load_templates(cfg: &Configuration, tpl_path: String) -> Vec<FileDAO> {
 	));
 	// /etc/nginx/conf.d/<user>.conf
 	for (user, _) in &cfg.sites {
-		let dest_file = format!("/etc/nginx/conf.d/{}.conf", user.clone()).to_string();
-		let tpl_file = format!("{}/etc-nginx-conf.d-user.conf.tpl", tpl_path);
+		let dest_file = format!("/etc/nginx/conf.d/{}.conf", user.clone());
+		let tpl_file  = format!("{}/etc-nginx-conf.d-user.conf.tpl", tpl_path.clone());
 		book.push(FileDAO::new(
 			dest_file.clone(),
 			tpl_file.clone(),
@@ -60,15 +60,15 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 	// /etc/nginx/conf.d/<user>.conf
 	{
 		for (user, details) in &cfg.sites {
-			let dest_file = format!("/etc/nginx/conf.d/{}.conf", user.clone()).to_string();
+			let dest_file = format!("/etc/nginx/conf.d/{}.conf", user.clone());
 			let dao = FileDAO::get_by_dest(&book, dest_file.clone());
 			debug!("Generating: {} as: {}", dao.dest_file.clone(), dao.tmp_file.clone());
 			let tpl = load_tpl(dao.tpl_file.clone());
 			let tags = json!({
 				"timestamp": timestamp.clone(),
-				"user":    user.clone(),
-				"details": &details,
+				"user":     user.clone(),
 				"hostname": &details.domain.clone(),
+				"details":  &details,
 			});
 			render_tpl(&dao, &tpl, &tags);
 		}
