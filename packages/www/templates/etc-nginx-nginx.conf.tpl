@@ -15,7 +15,7 @@ http {
 		'$remote_addr - $remote_user [$time_local] "$request" '
 		'$status $body_bytes_sent "$http_referer" '
 		'"$http_user_agent" "$http_x_forwarded_for"';
-	access_log  /var/log/web11/panel_nginx_access.log  main;
+	access_log  /var/log/nginx/access.log  main;
 
 	sendfile            on;
 	tcp_nopush          on;
