@@ -13,7 +13,10 @@ use configer_common::utils::{
 };
 
 use crate::Configuration;
-use crate::configuration::get_hostnames;
+use crate::configuration::{
+	DomainDetails,
+	get_hostnames,
+};
 
 
 
@@ -70,7 +73,7 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 
 	// /etc/named/<domain>.zone
 	{
-		let f = |dom: String, det| {
+		let f = |dom: String, det: &DomainDetails| {
 			let dest_file = format!("/etc/named/{}.zone", dom.clone());
 			let dao = FileDAO::get_by_dest(&book, dest_file.clone());
 			debug!("Generating: {} as: {}", dao.dest_file.clone(), dao.tmp_file.clone());
@@ -78,6 +81,7 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 			let tags = json!({
 				"timestamp": timestamp.clone(),
 				"domain":  dom.clone(),
+				"ip":      det.ip.clone(),
 				"details": &det,
 			});
 			render_tpl(&dao, &tpl, &tags);
