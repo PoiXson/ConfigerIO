@@ -1,5 +1,5 @@
 
-use log::{ info, trace };
+use log::{ info, debug };
 
 use serde_json::json;
 
@@ -40,7 +40,7 @@ pub fn generate_configs(_cfg: &Configuration, book: &Vec<FileDAO>) {
 	// /etc/php.ini
 	{
 		let dao = FileDAO::get_by_dest(&book, "/etc/php.ini".to_string());
-		trace!("Generating: {} as: {}", dao.dest_file.clone(), dao.tmp_file.clone());
+		debug!("Generating: {} as: {}", dao.dest_file.clone(), dao.tmp_file.clone());
 		let tpl = load_tpl(dao.tpl_file.clone());
 		let tags = json!({
 			"timestamp": timestamp.clone(),

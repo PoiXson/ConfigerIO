@@ -1,5 +1,5 @@
 
-use log::{ info, trace, warn };
+use log::{ info, debug, warn };
 use log::Level;
 use log::log_enabled;
 
@@ -148,7 +148,7 @@ pub fn backup_configs(_book: &Vec<FileDAO>) {
 pub fn install_configs(book: &Vec<FileDAO>) {
 	info!("Installing configs for: {}", SERVICE_TITLE);
 	for dao in book {
-		trace!("Installing: {} From: {}", dao.dest_file.clone(), dao.tmp_file.clone());
+		debug!("Installing: {} From: {}", dao.dest_file.clone(), dao.tmp_file.clone());
 		std::fs::copy( dao.tmp_file.clone(), dao.dest_file.clone() )
 			.unwrap_or_else(|e| panic!("Failed to install config: {} {}", dao.dest_file.clone(), e));
 	}
