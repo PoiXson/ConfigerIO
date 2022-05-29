@@ -6,14 +6,14 @@ use serde::{ Serialize, Deserialize };
 
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct DomainHost {
+pub struct DomainDetails {
 	pub ip: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Configuration {
-	pub internal: Map<String, DomainHost>,
-	pub external: Map<String, DomainHost>,
+	pub internal: Map<String, DomainDetails>,
+	pub external: Map<String, DomainDetails>,
 }
 
 
@@ -45,7 +45,7 @@ impl Configuration {
 
 }
 
-pub fn get_hostnames(array: &Map<String, DomainHost>) -> Vec<String> {
+pub fn get_hostnames(array: &Map<String, DomainDetails>) -> Vec<String> {
 	let mut result: Vec<String> = Vec::new();
 	for (hostname, _) in array {
 		result.push(hostname.clone());
