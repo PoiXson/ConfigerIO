@@ -28,9 +28,10 @@ pub fn load_templates(cfg: &Configuration, tpl_path: String) -> Vec<FileDAO> {
 		"/etc/nginx/nginx.conf".to_string(),
 		tpl_path.clone()
 	));
+	// /etc/nginx/conf.d/<user>.conf
 	for (user, _) in &cfg.sites {
 		let dest_file = format!("/etc/nginx/conf.d/{}.conf", user.clone()).to_string();
-		let tpl_file = format!("{}/etc-nginx-conf.d-name.conf.tpl", tpl_path);
+		let tpl_file = format!("{}/etc-nginx-conf.d-user.conf.tpl", tpl_path);
 		book.push(FileDAO::new(
 			dest_file.clone(),
 			tpl_file.clone(),
@@ -56,7 +57,7 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 		render_tpl(&dao, &tpl, &tags);
 	}
 
-	// /etc/nginx/conf.d/<name>.conf
+	// /etc/nginx/conf.d/<user>.conf
 	{
 		for (user, details) in &cfg.sites {
 			let dest_file = format!("/etc/nginx/conf.d/{}.conf", user.clone()).to_string();
