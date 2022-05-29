@@ -68,6 +68,7 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 				"timestamp": timestamp.clone(),
 				"user":    user.clone(),
 				"details": &details,
+				"hostname": &details.domain.clone(),
 			});
 			render_tpl(&dao, &tpl, &tags);
 		}
