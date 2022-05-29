@@ -42,7 +42,7 @@ view external {
 	allow-query { any; };
 	recursion no;
 	additional-from-cache no;
-	{{#each external}}
+	{{#each external_hosts}}
 
 	zone "{{{this}}}" IN {
 		type master;
