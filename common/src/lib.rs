@@ -37,12 +37,17 @@ pub struct FileDAO {
 }
 
 impl FileDAO {
-	pub fn new(tpl_path: &str, dest_file: String) -> Self {
+
+	pub fn new(dest_file: String, tpl_file_or_path: String) -> Self {
 		let tpl_file =
-			format!("{}/{}.tpl",
-				tpl_path,
-				safe_file_from_path(dest_file.clone())
-			);
+			if tpl_file_or_path.ends_with(".tpl") {
+				tpl_file_or_path.clone()
+			} else {
+				format!("{}/{}.tpl",
+					tpl_file_or_path.clone(),
+					safe_file_from_path(dest_file.clone()),
+				)
+			};
 		if ! std::path::Path::new(&tpl_file).is_file() {
 			panic!("Template file not found: {}", tpl_file.clone());
 		}
@@ -55,7 +60,8 @@ impl FileDAO {
 			tmp_handle,
 		}
 	}
-	pub fn get<'a>(book: &'a Vec<FileDAO>, dest_file: &'a str) -> &'a FileDAO {
+
+	pub fn get_by_dest<'a>(book: &'a Vec<FileDAO>, dest_file: String) -> &'a FileDAO {
 		for dao in book {
 			if dao.dest_file == dest_file {
 				return &dao;
@@ -63,6 +69,7 @@ impl FileDAO {
 		}
 		panic!("FileDAO not found for: {}", dest_file);
 	}
+
 }
 
 
