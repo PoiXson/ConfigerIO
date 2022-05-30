@@ -12,6 +12,7 @@ pub struct SiteDetails {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Configuration {
+	#[serde(default)]
 	pub sites: Map<String, SiteDetails>,
 }
 

@@ -12,7 +12,9 @@ pub struct DomainDetails {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Configuration {
+	#[serde(default)]
 	pub internal: Map<String, DomainDetails>,
+	#[serde(default)]
 	pub external: Map<String, DomainDetails>,
 }
 
