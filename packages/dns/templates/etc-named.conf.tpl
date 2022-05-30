@@ -11,7 +11,7 @@ options {
 	allow-transfer { "none"; };
 
 	directory          "/var/named";
-	pid-file           "/run/named.pid";
+	pid-file           "/run/named/named.pid";
 	session-keyfile    "/run/named/session.key";
 	dump-file          "/var/named/data/cache_dump.db";
 	managed-keys-directory "/var/named/dynamic";
