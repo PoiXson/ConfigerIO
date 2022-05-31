@@ -27,11 +27,13 @@ server {
 #		location = /50x.html {
 #	}
 
-#	location ~* \.php$ {
-#		fastcgi_pass unix:/run/php-{{{user}}}.sock;
-#		fastcgi_index index.php;
-#		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-#		include /etc/nginx/fastcgi_params;
-#	}
+{{#if has-php}}
+	location ~* \.php$ {
+		fastcgi_pass unix:/run/php-{{{user}}}.sock;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+		include /etc/nginx/fastcgi_params;
+	}
+{{/if}}
 
 }
