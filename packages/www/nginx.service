@@ -13,6 +13,9 @@ WantedBy=multi-user.target
 Type=forking
 PIDFile=/run/nginx.pid
 PrivateTmp=true
+TimeoutStopSec=5
+KillSignal=SIGQUIT
+KillMode=mixed
 
 ExecStartPre=/usr/bin/configer-www gen -vvv --backup --install
 ExecStartPre=echo "Starting.."
@@ -20,6 +23,3 @@ ExecStartPre=/usr/bin/rm -f /run/nginx.pid
 ExecStartPre=/usr/sbin/nginx -t
 ExecStart=/usr/sbin/nginx
 ExecReload=/bin/kill -s HUP $MAINPID
-KillSignal=SIGQUIT
-TimeoutStopSec=5
-KillMode=mixed
