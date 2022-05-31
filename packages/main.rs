@@ -153,7 +153,7 @@ use std::os::unix::fs::PermissionsExt;
 pub fn install_configs(book: &Vec<FileDAO>) {
 	info!("Installing configs for: {}", SERVICE_TITLE);
 	for dao in book {
-		debug!("Installing: {} From: {}", dao.dest_file.clone(), dao.tmp_file.clone());
+		debug!("Install: {} From: {}", dao.dest_file.clone(), dao.tmp_file.clone());
 		std::fs::copy( dao.tmp_file.clone(), dao.dest_file.clone() )
 			.unwrap_or_else(|e| panic!("Failed to install config: {} {}", dao.dest_file.clone(), e));
 		// set permissions
