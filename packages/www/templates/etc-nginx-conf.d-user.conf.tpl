@@ -12,10 +12,10 @@ server {
 		autoindex on;
 		autoindex_exact_size off;
 	}
-	location ~ \.php$ {
-		fastcgi_pass unix:/run/php-{{{user}}}.sock;
-		fastcgi_index index.php;
-		fastcgi_param SCRIPT_FILENAME $request_filename;
-		include /etc/nginx/fastcgi_params;
-	}
+#	location ~ \.php$ {
+#		fastcgi_pass unix:/run/php-{{{user}}}.sock;
+#		fastcgi_index index.php;
+#		fastcgi_param SCRIPT_FILENAME $request_filename;
+#		include /etc/nginx/fastcgi_params;
+#	}
 }
