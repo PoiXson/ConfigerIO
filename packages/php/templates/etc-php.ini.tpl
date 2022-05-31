@@ -28,8 +28,8 @@ report_memleaks = On
 
 register_argc_argv: Off
 auto_globals_jit: On
-request_order: "GP"
-variables_order: "GPCS"
+request_order: GP
+variables_order: GPCS
 
 session.gc_divisor: 1000
 session.sid_bits_per_character: 5
