@@ -18,6 +18,7 @@ PrivateTmp=true
 
 Environment=NAMEDCONF=/etc/named.conf
 ExecStartPre=/usr/bin/configer-dns gen -vvv --backup --install
+ExecStartPre=echo "Starting.."
 ExecStartPre=/bin/bash -c 'if [ ! "$DISABLE_ZONE_CHECKING" == "yes" ]; then /usr/sbin/named-checkconf -z "$NAMEDCONF"; else echo "Checking of zone files is disabled"; fi'
 ExecStart=/usr/sbin/named -u named -c ${NAMEDCONF} $OPTIONS
 ExecReload=/bin/sh -c 'if /usr/sbin/rndc null > /dev/null 2>&1; then /usr/sbin/rndc reload; else /bin/kill -HUP $MAINPID; fi'

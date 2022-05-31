@@ -15,6 +15,7 @@ PIDFile=/run/nginx.pid
 PrivateTmp=true
 
 ExecStartPre=/usr/bin/configer-www gen -vvv --backup --install
+ExecStartPre=echo "Starting.."
 ExecStartPre=/usr/bin/rm -f /run/nginx.pid
 ExecStartPre=/usr/sbin/nginx -t
 ExecStart=/usr/sbin/nginx
