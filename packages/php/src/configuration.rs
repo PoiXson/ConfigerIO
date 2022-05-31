@@ -6,14 +6,14 @@ use serde::{ Serialize, Deserialize };
 
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SiteDomain {
+pub struct SiteDetails {
 	pub domain: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Configuration {
 	#[serde(default)]
-	pub sites: Map<String, SiteDomain>,
+	pub sites: Map<String, SiteDetails>,
 }
 
 
