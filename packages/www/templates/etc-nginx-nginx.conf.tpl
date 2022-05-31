@@ -5,7 +5,7 @@
 
 user nginx;
 worker_processes auto;
-error_log /var/log/nginx/error.log;
+error_log /var/log/nginx/error.log warn;
 pid /run/nginx.pid;
 
 events {
@@ -29,9 +29,16 @@ http {
 	default_type        application/octet-stream;
 
 	server {
-		listen       80  default_server;
+		listen       80;
 		server_name  _;
 		root         /var/www;
+
+#		error_page 404 /404.html;
+#			location = /40x.html {
+#		}
+#		error_page 500 502 503 504 /50x.html;
+#			location = /50x.html {
+#		}
 
 #TODO: forward to https
 		location / {
@@ -41,6 +48,7 @@ http {
 			autoindex_exact_size off;
 		}
 
+#TODO
 #		# php
 #		index index.php index.html index.htm;
 #		location ~ \.php$ {

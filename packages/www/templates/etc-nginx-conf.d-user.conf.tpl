@@ -7,17 +7,32 @@
 server {
 	listen *:80;
 	server_name {{{hostname}}};
+
 	root /home/{{{user}}}/www/;
 	index index.php index.html index.htm;
+
+	access_log /var/log/nginx/access_{{{hostname}}}.log;
+	error_log  /var/log/nginx/error_{{{hostname}}}.log warn;
+
 	location / {
-		try_files $uri $uri/ /index.php;
+		try_files $uri $uri/ $uri/index.php /index.php;
 		autoindex on;
 		autoindex_exact_size off;
+		try_files $uri =404;
 	}
-#	location ~ \.php$ {
+
+#	error_page 404 /404.html;
+#		location = /40x.html {
+#	}
+#	error_page 500 502 503 504 /50x.html;
+#		location = /50x.html {
+#	}
+
+#	location ~* \.php$ {
 #		fastcgi_pass unix:/run/php-{{{user}}}.sock;
 #		fastcgi_index index.php;
-#		fastcgi_param SCRIPT_FILENAME $request_filename;
+#		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
 #		include /etc/nginx/fastcgi_params;
 #	}
+
 }
