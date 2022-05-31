@@ -5,13 +5,17 @@
 ; <don't edit here; changes will be overwritten>
 
 [{{{user}}}]
+user  = {{{user}}}
+group = {{{user}}}
 
+;chroot = /home/{{{user}}}
 chdir = /home/{{{user}}}/www
 
-listen.mode = 0666
+listen.mode = 0600
 listen = /run/php-{{{user}}}.sock
-listen.owner = {{{user}}}
-listen.group = {{{user}}}
+listen.owner = nginx
+listen.group = nginx
+listen.allowed_clients = 127.0.0.1
 
 pm = ondemand
 pm.max_children = 10
@@ -20,3 +24,11 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 5
 pm.process_idle_timeout = 60s
 pm.max_requests = 20
+
+slowlog = /var/log/$pool.log.slow
+request_slowlog_timeout = 5s
+
+;php_value[session.save_handler] = files
+;php_value[session.save_path]    = /var/lib/php/session
+;php_value[soap.wsdl_cache_dir]  = /var/lib/php/wsdlcache
+;php_value[opcache.file_cache]   = /var/lib/php/opcache

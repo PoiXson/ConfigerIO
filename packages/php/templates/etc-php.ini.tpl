@@ -74,10 +74,10 @@ max_input_vars = 1000
 
 post_max_size = 8M
 
-doc_root = /var/www
-user_dir =
+;doc_root = /var/www
+;user_dir =
 
-extension_dir = "ext"
+extension_dir = "/usr/lib64/php/modules"
 sys_temp_dir = "/tmp"
 
 file_uploads = On
