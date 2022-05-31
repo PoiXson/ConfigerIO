@@ -15,10 +15,9 @@ server {
 	error_log  /var/log/nginx/error_{{{hostname}}}.log warn;
 
 	location / {
-		try_files $uri $uri/ $uri/index.php /index.php;
+		try_files $uri $uri/ $uri/index.php /index.php =404;
 		autoindex on;
 		autoindex_exact_size off;
-		try_files $uri =404;
 	}
 
 #	error_page 404 /404.html;
