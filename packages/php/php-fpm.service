@@ -17,6 +17,7 @@ RuntimeDirectoryMode=0755
 PrivateTmp=true
 
 ExecStartPre=/usr/bin/configer-php gen -vvv --backup --install
+ExecStartPre=/usr/bin/rm -f /run/php-fpm.pid /run/php-*.sock
 ExecStartPre=echo "Starting.."
 ExecStart=/usr/sbin/php-fpm --nodaemonize
 ExecReload=/bin/kill -USR2 $MAINPID

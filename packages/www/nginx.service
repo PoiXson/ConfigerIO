@@ -18,8 +18,8 @@ KillSignal=SIGQUIT
 KillMode=mixed
 
 ExecStartPre=/usr/bin/configer-www gen -vvv --backup --install
-ExecStartPre=echo "Starting.."
 ExecStartPre=/usr/bin/rm -f /run/nginx.pid
+ExecStartPre=echo "Starting.."
 ExecStartPre=/usr/sbin/nginx -t
 ExecStart=/usr/sbin/nginx
 ExecReload=/bin/kill -s HUP $MAINPID
