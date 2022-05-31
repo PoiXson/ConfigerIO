@@ -29,22 +29,6 @@ impl Configuration {
 			.unwrap_or_else(|e| panic!("Failed to parse configer config file: {} {}", file, e))
 	}
 
-	pub fn get_internal_hosts(&self) -> Vec<String> {
-		let mut array: Vec<String> = Vec::new();
-		for key in self.internal.keys() {
-			array.push(key.clone());
-		}
-		array
-	}
-
-	pub fn get_external_hosts(&self) -> Vec<String> {
-		let mut array: Vec<String> = Vec::new();
-		for key in self.external.keys() {
-			array.push(key.clone());
-		}
-		array
-	}
-
 }
 
 pub fn get_hostnames(array: &Map<String, DomainDetails>) -> Vec<String> {
