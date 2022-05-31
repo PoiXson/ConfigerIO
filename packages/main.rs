@@ -21,6 +21,10 @@ mod playbook;
 
 
 
+pub const DEFAULT_CONFIG_PERMISSIONS: u32 = 0o644;
+
+
+
 #[derive(Parser)]
 #[clap(author, version, about)]
 #[clap(subcommand_required=true, arg_required_else_help=true)]
@@ -145,11 +149,17 @@ pub fn backup_configs(_book: &Vec<FileDAO>) {
 
 
 
+use std::os::unix::fs::PermissionsExt;
 pub fn install_configs(book: &Vec<FileDAO>) {
 	info!("Installing configs for: {}", SERVICE_TITLE);
 	for dao in book {
 		debug!("Installing: {} From: {}", dao.dest_file.clone(), dao.tmp_file.clone());
 		std::fs::copy( dao.tmp_file.clone(), dao.dest_file.clone() )
 			.unwrap_or_else(|e| panic!("Failed to install config: {} {}", dao.dest_file.clone(), e));
+		// set permissions
+		std::fs::set_permissions(
+			dao.dest_file.clone(),
+			std::fs::Permissions::from_mode(DEFAULT_CONFIG_PERMISSIONS)
+		).unwrap();
 	}
 }
