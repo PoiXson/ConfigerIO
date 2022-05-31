@@ -92,7 +92,6 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 		for (domain, details) in &cfg.external {
 			f(domain.clone(), details);
 		}
-
 	}
 
 }

@@ -161,5 +161,7 @@ pub fn install_configs(book: &Vec<FileDAO>) {
 			dao.dest_file.clone(),
 			std::fs::Permissions::from_mode(DEFAULT_CONFIG_PERMISSIONS)
 		).unwrap();
+		// set owner/group
+//TODO
 	}
 }
