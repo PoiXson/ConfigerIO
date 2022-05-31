@@ -8,6 +8,8 @@ use serde::{ Serialize, Deserialize };
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SiteDetails {
 	pub domain: String,
+	#[serde(default)]
+	pub php: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

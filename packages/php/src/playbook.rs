@@ -29,7 +29,12 @@ pub fn load_templates(cfg: &Configuration, tpl_path: String) -> Vec<FileDAO> {
 		tpl_path.clone()
 	));
 	// /etc/php-fpm.d/<user>.conf
-	for (user, _) in &cfg.sites {
+	'SITES_LOOP:
+	for (user, details) in &cfg.sites {
+		if ! details.php {
+			debug!("PHP not enabled: {}", details.domain.clone());
+			continue 'SITES_LOOP;
+		}
 		let dest_file = format!("/etc/php-fpm.d/{}.conf", user.clone()).to_string();
 		let tpl_file = format!("{}/etc-php-fpm.d-user.conf.tpl", tpl_path);
 		book.push(FileDAO::new(
@@ -59,7 +64,9 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 
 	// /etc/php-fpm.d/<user>.conf
 	{
+		'SITES_LOOP:
 		for (user, details) in &cfg.sites {
+			if ! details.php { continue 'SITES_LOOP; }
 			let dest_file = format!("/etc/php-fpm.d/{}.conf", user.clone()).to_string();
 			let dao = FileDAO::get_by_dest(&book, dest_file.clone());
 			debug!("Generating: {} as: {}", dao.dest_file.clone(), dao.tmp_file.clone());
@@ -67,8 +74,8 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 			let tags = json!({
 				"timestamp": timestamp.clone(),
 				"user":    user.clone(),
-				"details": &details,
 				"hostname": &details.domain.clone(),
+				"details": &details,
 			});
 			render_tpl(&dao, &tpl, &tags);
 		}
