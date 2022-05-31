@@ -8,9 +8,11 @@ After=syslog.target network.target
 
 [Service]
 Type=notify
-ExecStart=/opt/remi/php81/root/usr/sbin/php-fpm --nodaemonize
+ExecStart=/usr/sbin/php-fpm --nodaemonize
 ExecReload=/bin/kill -USR2 $MAINPID
 PrivateTmp=true
+RuntimeDirectory=php-fpm
+RuntimeDirectoryMode=0755
 
 [Install]
 WantedBy=multi-user.target
