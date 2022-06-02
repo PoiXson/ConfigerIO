@@ -2,11 +2,9 @@
 
 [Unit]
 Description=Berkeley Internet Name Domain (DNS)
-Wants=nss-lookup.target
-Wants=named-setup-rndc.service
+Wants=nss-lookup.target named-setup-rndc.service
 Before=nss-lookup.target
-After=named-setup-rndc.service
-After=network.target
+After=network.target named-setup-rndc.service
 
 [Install]
 WantedBy=multi-user.target

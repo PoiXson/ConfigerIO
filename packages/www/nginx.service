@@ -2,9 +2,7 @@
 
 [Unit]
 Description=The nginx HTTP and reverse proxy server
-After=network.target
-After=remote-fs.target
-After=nss-lookup.target
+After=network.target nss-lookup.target syslog.target remote-fs.target home.mount
 
 [Install]
 WantedBy=multi-user.target

@@ -2,10 +2,8 @@
 
 [Unit]
 Description=Postfix Mail Transport Agent
-After=network.target
-After=syslog.target
-Conflicts=sendmail.service
-Conflicts=exim.service
+After=network.target syslog.target
+Conflicts=sendmail.service exim.service
 
 [Install]
 WantedBy=multi-user.target
