@@ -1,0 +1,17 @@
+[package]
+name = "configer-fw"
+version = "0.1.0"
+license = "GPLv3"
+edition = "2021"
+description = "ConfigerIO config generation tool"
+keywords = [ "firewall", "iptables" ]
+repository = "https://github.com/PoiXson/ConfigerIO-mirror.git"
+
+[dependencies]
+configer-common = { path="../../common/" }
+log = "*"
+log-panics = "*"
+tempfile   = "*"
+clap = { version="3", features=["derive"] }
+serde = { version="1", features=["derive"] }
+serde_json = "*"

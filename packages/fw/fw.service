@@ -1,0 +1,27 @@
+# *** Used by ConfigerIO ***
+
+[Unit]
+Description=IPv4 firewall with iptables
+Before=network-pre.target
+After=syslog.target remote-fs.target home.mount
+Wants=network-pre.target
+Conflicts=firewalld.service iptables.service ip6tables.service
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=BOOTUP=serial
+Environment=CONSOLETYPE=serial
+StandardOutput=syslog
+StandardError=syslog
+
+ExecStartPre=/usr/bin/configer-fw gen -vvv --backup --install
+ExecStartPre=echo "Starting.."
+ExecStart=/usr/libexec/iptables/iptables.init start
+ExecReload=/usr/libexec/iptables/iptables.init reload
+ExecStop=/usr/libexec/iptables/iptables.init stop
