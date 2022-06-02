@@ -1,4 +1,4 @@
-# Generated: Thu Jun  2 05:18:21 AM EDT 2022
+# Generated: Thu Jun  2 07:14:59 AM EDT 2022
 Name    : configer-dns
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -54,16 +54,16 @@ echo "Install.."
 
 
 %post
-%systemd_post named.service
+%systemd_post  named.service
 if [[ "$1" -eq 1 ]]; then
 	/usr/bin/systemctl start  named.service  || :
 fi
 
 %preun
-%systemd_preun named.service
+%systemd_preun  named.service
 
 %postun
-%systemd_postun_with_restart named.service
+%systemd_postun_with_restart  named.service
 
 
 

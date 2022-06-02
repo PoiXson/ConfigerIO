@@ -1,4 +1,4 @@
-# Generated: Thu Jun  2 05:50:52 AM EDT 2022
+# Generated: Thu Jun  2 07:15:05 AM EDT 2022
 Name    : configer-web
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -54,16 +54,16 @@ echo "Install.."
 
 
 %post
-%systemd_post nginx.service
+%systemd_post  nginx.service
 if [[ "$1" -eq 1 ]]; then
 	/usr/bin/systemctl start  nginx.service  || :
 fi
 
 %preun
-%systemd_preun nginx.service
+%systemd_preun  nginx.service
 
 %postun
-%systemd_postun_with_restart nginx.service
+%systemd_postun_with_restart  nginx.service
 
 
 

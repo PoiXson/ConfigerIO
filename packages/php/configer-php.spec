@@ -1,4 +1,4 @@
-# Generated: Thu Jun  2 05:18:24 AM EDT 2022
+# Generated: Thu Jun  2 07:15:02 AM EDT 2022
 Name    : configer-php
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -54,16 +54,16 @@ echo "Install.."
 
 
 %post
-%systemd_post php-fpm.service
+%systemd_post  php-fpm.service
 if [[ "$1" -eq 1 ]]; then
 	/usr/bin/systemctl start  php-fpm.service  || :
 fi
 
 %preun
-%systemd_preun php-fpm.service
+%systemd_preun  php-fpm.service
 
 %postun
-%systemd_postun_with_restart php-fpm.service
+%systemd_postun_with_restart  php-fpm.service
 
 
 

@@ -1,4 +1,4 @@
-# Generated: Thu Jun  2 05:18:29 AM EDT 2022
+# Generated: Thu Jun  2 07:15:08 AM EDT 2022
 Name    : configer-mail
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -54,16 +54,16 @@ echo "Install.."
 
 
 %post
-%systemd_post postfix.service
+%systemd_post  postfix.service
 if [[ "$1" -eq 1 ]]; then
 	/usr/bin/systemctl start  postfix.service  || :
 fi
 
 %preun
-%systemd_preun postfix.service
+%systemd_preun  postfix.service
 
 %postun
-%systemd_postun_with_restart postfix.service
+%systemd_postun_with_restart  postfix.service
 
 
 
