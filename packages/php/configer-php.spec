@@ -1,4 +1,4 @@
-# Generated: Mon May 30 10:24:44 PM EDT 2022
+# Generated: Thu Jun  2 05:18:24 AM EDT 2022
 Name    : configer-php
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -32,6 +32,7 @@ echo "Install.."
 %{__install} -d -m 0755  \
 	"%{buildroot}%{_bindir}/"                     \
 	"%{buildroot}%{_sysconfdir}/systemd/system/"  \
+	"%{buildroot}%{_presetdir}/"                  \
 	"%{buildroot}%{prefix}/"                      \
 	"%{buildroot}%{prefix}/templates/php/"        \
 		|| exit 1
@@ -47,6 +48,7 @@ echo "Install.."
 	%{__install} -m 0755  "templates/"*.tpl  "%{buildroot}%{prefix}/templates/php/"  || exit 1
 	# systemd
 	%{__install} -m 0755  "php-fpm.service"  "%{buildroot}%{_sysconfdir}/systemd/system/"  || exit 1
+	%{__install} -m 0755  "10-php-fpm.preset"  "%{buildroot}%{_presetdir}/"                || exit 1
 \popd >/dev/null
 
 
@@ -70,6 +72,7 @@ fi
 %defattr(0400, configer, configer, 0500)
 %attr(0500,root,root)  %{_bindir}/configer-php
 %{_sysconfdir}/systemd/system/php-fpm.service
+%{_presetdir}/10-php-fpm.preset
 %{prefix}/templates/php/etc-php.ini.tpl
 %{prefix}/templates/php/etc-php-fpm.conf.tpl
 %{prefix}/templates/php/etc-php-fpm.d-user.conf.tpl

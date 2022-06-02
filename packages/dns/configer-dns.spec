@@ -1,4 +1,4 @@
-# Generated: Fri May 27 02:30:47 AM EDT 2022
+# Generated: Thu Jun  2 05:18:21 AM EDT 2022
 Name    : configer-dns
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -32,6 +32,7 @@ echo "Install.."
 %{__install} -d -m 0755  \
 	"%{buildroot}%{_bindir}/"                     \
 	"%{buildroot}%{_sysconfdir}/systemd/system/"  \
+	"%{buildroot}%{_presetdir}/"                  \
 	"%{buildroot}%{prefix}/"                      \
 	"%{buildroot}%{prefix}/templates/dns/"        \
 		|| exit 1
@@ -47,6 +48,7 @@ echo "Install.."
 	%{__install} -m 0755  "templates/"*.tpl  "%{buildroot}%{prefix}/templates/dns/"  || exit 1
 	# systemd
 	%{__install} -m 0755  "named.service"  "%{buildroot}%{_sysconfdir}/systemd/system/"  || exit 1
+	%{__install} -m 0755  "10-named.preset"  "%{buildroot}%{_presetdir}/"                || exit 1
 \popd >/dev/null
 
 
@@ -70,5 +72,6 @@ fi
 %defattr(0400, configer, configer, 0500)
 %attr(0500,root,root)  %{_bindir}/configer-dns
 %{_sysconfdir}/systemd/system/named.service
+%{_presetdir}/10-named.preset
 %{prefix}/templates/dns/etc-named.conf.tpl
 %{prefix}/templates/dns/etc-named-domain.zone.tpl

@@ -1,4 +1,4 @@
-# Generated: Fri May 27 02:32:39 AM EDT 2022
+# Generated: Thu Jun  2 05:18:29 AM EDT 2022
 Name    : configer-mail
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
@@ -32,6 +32,7 @@ echo "Install.."
 %{__install} -d -m 0755  \
 	"%{buildroot}%{_bindir}/"                     \
 	"%{buildroot}%{_sysconfdir}/systemd/system/"  \
+	"%{buildroot}%{_presetdir}/"                  \
 	"%{buildroot}%{prefix}/"                      \
 	"%{buildroot}%{prefix}/templates/mail/"       \
 		|| exit 1
@@ -47,6 +48,7 @@ echo "Install.."
 	%{__install} -m 0755  "templates/"*.tpl  "%{buildroot}%{prefix}/templates/mail/"  || exit 1
 	# systemd
 	%{__install} -m 0755  "postfix.service"  "%{buildroot}%{_sysconfdir}/systemd/system/"  || exit 1
+	%{__install} -m 0755  "10-postfix.preset"  "%{buildroot}%{_presetdir}/"                || exit 1
 \popd >/dev/null
 
 
@@ -70,4 +72,5 @@ fi
 %defattr(0400, configer, configer, 0500)
 %attr(0500,root,root)  %{_bindir}/configer-mail
 %{_sysconfdir}/systemd/system/postfix.service
+%{_presetdir}/10-postfix.preset
 %{prefix}/templates/mail/etc-postfix-main.cf.tpl
