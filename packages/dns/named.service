@@ -5,6 +5,8 @@ Description=Berkeley Internet Name Domain (DNS)
 Wants=nss-lookup.target named-setup-rndc.service
 Before=nss-lookup.target
 After=network.target named-setup-rndc.service
+StartLimitIntervalSec=90
+StartLimitBurst=3
 
 [Install]
 WantedBy=multi-user.target
@@ -13,6 +15,8 @@ WantedBy=multi-user.target
 Type=forking
 PIDFile=/run/named/named.pid
 PrivateTmp=true
+Restart=on-failure
+RestartSec=20s
 
 Environment=NAMEDCONF=/etc/named.conf
 

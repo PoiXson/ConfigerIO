@@ -3,6 +3,8 @@
 [Unit]
 Description=The nginx HTTP and reverse proxy server
 After=network.target nss-lookup.target syslog.target remote-fs.target home.mount
+StartLimitIntervalSec=90
+StartLimitBurst=3
 
 [Install]
 WantedBy=multi-user.target
@@ -14,6 +16,8 @@ PrivateTmp=true
 TimeoutStopSec=5
 KillSignal=SIGQUIT
 KillMode=mixed
+Restart=on-failure
+RestartSec=20s
 
 ExecStartPre=/usr/bin/configer-www gen -vvv --backup --install
 ExecStartPre=/usr/bin/rm -f /run/nginx.pid

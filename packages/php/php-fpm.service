@@ -3,6 +3,8 @@
 [Unit]
 Description=The PHP FastCGI Process Manager
 After=network.target nss-lookup.target syslog.target remote-fs.target home.mount
+StartLimitIntervalSec=90
+StartLimitBurst=3
 
 [Install]
 WantedBy=multi-user.target
@@ -13,6 +15,8 @@ PIDFile=/run/php-fpm/php-fpm.pid
 RuntimeDirectory=php-fpm
 RuntimeDirectoryMode=0755
 PrivateTmp=true
+Restart=on-failure
+RestartSec=20s
 
 ExecStartPre=/usr/bin/configer-php gen -vvv --backup --install
 ExecStartPre=/usr/bin/rm -f /run/php-fpm.pid /run/php-*.sock
