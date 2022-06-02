@@ -53,6 +53,9 @@ echo "Install.."
 
 %post
 %systemd_post named.service
+if [[ "$1" -eq 1 ]]; then
+	/usr/bin/systemctl start  named.service  || :
+fi
 
 %preun
 %systemd_preun named.service

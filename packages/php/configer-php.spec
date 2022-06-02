@@ -53,6 +53,9 @@ echo "Install.."
 
 %post
 %systemd_post php-fpm.service
+if [[ "$1" -eq 1 ]]; then
+	/usr/bin/systemctl start  php-fpm.service  || :
+fi
 
 %preun
 %systemd_preun php-fpm.service

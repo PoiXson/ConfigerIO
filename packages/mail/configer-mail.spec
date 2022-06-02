@@ -53,6 +53,9 @@ echo "Install.."
 
 %post
 %systemd_post postfix.service
+if [[ "$1" -eq 1 ]]; then
+	/usr/bin/systemctl start  postfix.service  || :
+fi
 
 %preun
 %systemd_preun postfix.service

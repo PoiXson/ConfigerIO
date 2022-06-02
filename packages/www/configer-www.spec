@@ -53,6 +53,9 @@ echo "Install.."
 
 %post
 %systemd_post nginx.service
+if [[ "$1" -eq 1 ]]; then
+	/usr/bin/systemctl start  nginx.service  || :
+fi
 
 %preun
 %systemd_preun nginx.service
