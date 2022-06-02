@@ -4,8 +4,8 @@
 Description=Postfix Mail Transport Agent
 After=network.target syslog.target
 Conflicts=sendmail.service exim.service
-StartLimitIntervalSec=90
-StartLimitBurst=3
+StartLimitIntervalSec=300
+StartLimitBurst=5
 
 [Install]
 WantedBy=multi-user.target
@@ -17,7 +17,7 @@ PrivateTmp=true
 PrivateDevices=true
 ProtectSystem=true
 Restart=on-failure
-RestartSec=20s
+RestartSec=10s
 
 EnvironmentFile=-/etc/sysconfig/network
 CapabilityBoundingSet=~ CAP_NET_ADMIN CAP_SYS_ADMIN CAP_SYS_BOOT CAP_SYS_MODULE
