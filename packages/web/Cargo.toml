@@ -1,10 +1,10 @@
 [package]
-name = "configer-www"
+name = "configer-web"
 version = "0.1.0"
 license = "GPLv3"
 edition = "2021"
 description = "ConfigerIO config generation tool"
-keywords = [ "www", "nginx", "http", "https" ]
+keywords = [ "web", "nginx", "http", "https" ]
 repository = "https://github.com/PoiXson/ConfigerIO-mirror.git"
 
 [dependencies]

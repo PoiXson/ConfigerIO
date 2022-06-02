@@ -16,7 +16,7 @@ use crate::Configuration;
 
 
 
-pub const SERVICE_NAME:  &str = "www";
+pub const SERVICE_NAME:  &str = "web";
 pub const SERVICE_TITLE: &str = "nginx";
 
 

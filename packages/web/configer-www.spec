@@ -1,5 +1,5 @@
-# Generated: Thu Jun  2 05:18:27 AM EDT 2022
-Name    : configer-www
+# Generated: Thu Jun  2 05:50:52 AM EDT 2022
+Name    : configer-web
 Version : 0.1.%{?build_number}%{!?build_number:x}
 Release : 1%{dist}
 Summary : Nginx module for ConfigerIO
@@ -34,18 +34,18 @@ echo "Install.."
 	"%{buildroot}%{_sysconfdir}/systemd/system/"  \
 	"%{buildroot}%{_presetdir}/"                  \
 	"%{buildroot}%{prefix}/"                      \
-	"%{buildroot}%{prefix}/templates/www/"        \
+	"%{buildroot}%{prefix}/templates/web/"        \
 		|| exit 1
 
 # copy files
 \pushd "%{_topdir}/../" >/dev/null || exit 1
 	if [[ -d target/release/ ]]; then
-		%{__install} -m 0755  "target/release/configer-www"  "%{buildroot}%{_bindir}/"  || exit 1
+		%{__install} -m 0755  "target/release/configer-web"  "%{buildroot}%{_bindir}/"  || exit 1
 	else
-		%{__install} -m 0755  "target/debug/configer-www"    "%{buildroot}%{_bindir}/"  || exit 1
+		%{__install} -m 0755  "target/debug/configer-web"    "%{buildroot}%{_bindir}/"  || exit 1
 	fi
 	# templates
-	%{__install} -m 0755  "templates/"*.tpl  "%{buildroot}%{prefix}/templates/www/"  || exit 1
+	%{__install} -m 0755  "templates/"*.tpl  "%{buildroot}%{prefix}/templates/web/"  || exit 1
 	# systemd
 	%{__install} -m 0755  "nginx.service"  "%{buildroot}%{_sysconfdir}/systemd/system/"  || exit 1
 	%{__install} -m 0755  "10-nginx.preset"  "%{buildroot}%{_presetdir}/"                || exit 1
@@ -70,8 +70,8 @@ fi
 ### Files ###
 %files
 %defattr(0400, configer, configer, 0500)
-%attr(0500,root,root)  %{_bindir}/configer-www
+%attr(0500,root,root)  %{_bindir}/configer-web
 %{_sysconfdir}/systemd/system/nginx.service
 %{_presetdir}/10-nginx.preset
-%{prefix}/templates/www/etc-nginx-nginx.conf.tpl
-%{prefix}/templates/www/etc-nginx-conf.d-user.conf.tpl
+%{prefix}/templates/web/etc-nginx-nginx.conf.tpl
+%{prefix}/templates/web/etc-nginx-conf.d-user.conf.tpl

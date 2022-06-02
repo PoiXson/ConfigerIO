@@ -19,7 +19,7 @@ KillMode=mixed
 Restart=on-failure
 RestartSec=10s
 
-ExecStartPre=/usr/bin/configer-www gen -vvv --backup --install
+ExecStartPre=/usr/bin/configer-web gen -vvv --backup --install
 ExecStartPre=/usr/bin/rm -f /run/nginx.pid
 ExecStartPre=echo "Starting.."
 ExecStartPre=/usr/sbin/nginx -t
