@@ -5,6 +5,8 @@ Release : 1%{dist}
 Summary : PHP-FPM module for ConfigerIO
 
 Requires: php
+BuildRequires: systemd-rpm-macros
+
 BuildArch : x86_64
 Packager  : PoiXson <support@poixson.com>
 License   : GPLv3
@@ -46,6 +48,17 @@ echo "Install.."
 	# systemd
 	%{__install} -m 0755  "php-fpm.service"  "%{buildroot}%{_sysconfdir}/systemd/system/"  || exit 1
 \popd >/dev/null
+
+
+
+%post
+%systemd_post php-fpm.service
+
+%preun
+%systemd_preun php-fpm.service
+
+%postun
+%systemd_postun_with_restart php-fpm.service
 
 
 

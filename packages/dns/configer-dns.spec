@@ -5,6 +5,8 @@ Release : 1%{dist}
 Summary : DNS module for ConfigerIO
 
 Requires: bind
+BuildRequires: systemd-rpm-macros
+
 BuildArch : x86_64
 Packager  : PoiXson <support@poixson.com>
 License   : GPLv3
@@ -46,6 +48,17 @@ echo "Install.."
 	# systemd
 	%{__install} -m 0755  "named.service"  "%{buildroot}%{_sysconfdir}/systemd/system/"  || exit 1
 \popd >/dev/null
+
+
+
+%post
+%systemd_post named.service
+
+%preun
+%systemd_preun named.service
+
+%postun
+%systemd_postun_with_restart named.service
 
 
 
