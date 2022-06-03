@@ -44,11 +44,11 @@ view external {
 	allow-query { any; };
 	recursion no;
 	additional-from-cache no;
-	{{#each external_hosts}}
+	{{#each cfg.dns_external}}
 
-	zone "{{{this}}}" IN {
+	zone "{{{@key}}}" IN {
 		type master;
-		file "/etc/named/{{{this}}}.zone";
+		file "/etc/named/{{{@key}}}.zone";
 	};
 	{{/each}}
 

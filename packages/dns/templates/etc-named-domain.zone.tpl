@@ -12,14 +12,19 @@ $TTL 2D
                3w         ; expiry
                2h         ; nxdomain ttl
                )
+
+{{#if is_internal}}
+{{{domain}}}.  IN  A   {{{details.ip}}}
+{{/if}}
+{{#if is_external}}
 {{{domain}}}.  IN  NS  ns1.{{{domain}}}.
 {{{domain}}}.  IN  NS  ns2.{{{domain}}}.
+ns1  IN  A  {{{details.ip}}}
+ns2  IN  A  {{{details.ip}}}
 
-ns1  IN  A  {{{ip}}}
-ns2  IN  A  {{{ip}}}
-
-{{{domain}}}.  IN  A   {{{ip}}}
+{{{domain}}}.  IN  A   {{{details.ip}}}
 {{{domain}}}.  IN  MX  0 {{{domain}}}.
 
 www   IN  CNAME  {{{domain}}}.
 mail  IN  CNAME  {{{domain}}}.
+{{/if}}
