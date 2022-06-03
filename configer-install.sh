@@ -194,6 +194,7 @@ function DisplayHelp() {
 	echo -e "  ${COLOR_GREEN}web, php, dns, mail${COLOR_RESET}"
 	echo
 	echo -e "${COLOR_BROWN}Options:${COLOR_RESET}"
+	echo -e "  ${COLOR_GREEN}-a, --ask${COLOR_RESET}                 Ask questions before installing"
 	echo -e "  ${COLOR_GREEN}-y, --yes${COLOR_RESET}                 Automatically answer yes for all questions"
 	echo -e "  ${COLOR_GREEN}-D, --dry${COLOR_RESET}                 Dry-run, no changes will be performed by actions"
 	echo -e "  ${COLOR_GREEN}-A, --all${COLOR_RESET}                 Install packages for all supported services"
@@ -207,6 +208,7 @@ function DisplayHelp() {
 
 
 IS_AUTO=$NO
+IS_ASK=$NO
 IS_DRY=$NO
 VERBOSE=$NO
 INSTALL_USERS=$NO
@@ -232,6 +234,12 @@ while [ $# -gt 0 ]; do
 	-h|--help)
 		DisplayHelp
 		exit 1
+	;;
+	-a|--ask)
+		IS_ASK=$YES
+#TODO
+echo "UNFINISHED --ask"
+exit 1
 	;;
 	-A|--all)
 		INSTALL_USERS=$YES
@@ -285,6 +293,9 @@ if [[ $IS_DRY -eq $YES ]]; then
 fi
 if [[ $IS_AUTO -eq $YES ]]; then
 	notice "Auto-yes"
+fi
+if [[ $IS_ASK -eq $YES ]]; then
+	notice "Asking"
 fi
 echo
 
