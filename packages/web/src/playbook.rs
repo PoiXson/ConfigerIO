@@ -66,10 +66,10 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 			let tpl = load_tpl(dao.tpl_file.clone());
 			let tags = json!({
 				"timestamp": timestamp.clone(),
-				"user":     user.clone(),
-				"hostname": &details.domain.clone(),
-				"has-php":  &details.php,
-				"details":  &details,
+				"user":    user.clone(),
+				"domain":  &details.domain.clone(),
+				"has-php": &details.php,
+				"details": &details,
 			});
 			render_tpl(&dao, &tpl, &tags);
 		}
