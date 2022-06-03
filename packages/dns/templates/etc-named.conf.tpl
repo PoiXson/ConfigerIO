@@ -40,6 +40,29 @@ logging {
 };
 
 
+acl trusted { localnets; };
+view internal {
+	match-clients { trusted; };
+	allow-query { any; };
+	recursion yes;
+	{{#each cfg.dns_internal}}
+
+	zone "{{{@key}}}" IN {
+		type master;
+		file "/etc/named/{{{@key}}}.zone";
+	};
+	{{/each}}
+
+	zone "." IN {
+		type hint;
+		file "/var/named/named.ca";
+	};
+
+	include "/etc/named.rfc1912.zones";
+	allow-update { none; };
+};
+
+
 view external {
 	allow-query { any; };
 	recursion no;
