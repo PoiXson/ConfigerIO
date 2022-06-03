@@ -1,0 +1,18 @@
+{
+	"users": {
+		"example-site": { }
+	},
+	"dns_internal": {
+		"servera": { "ip": "192.168.1.21" },
+		"serverb": { "ip": "192.168.1.22" }
+	},
+	"dns_external": {
+		"example.com": { "ip": "1.2.3.4" }
+	},
+	"sites": {
+		"example-site": {
+			"domain": "example.com",
+			"php": true
+		}
+	}
+}
