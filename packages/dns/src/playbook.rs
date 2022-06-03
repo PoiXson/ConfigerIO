@@ -42,10 +42,10 @@ pub fn load_templates(cfg: &Configuration, tpl_path: String) -> Vec<FileDAO> {
 				tpl_file.clone(),
 			));
 		};
-		for (domain, _) in &cfg.internal {
+		for (domain, _) in &cfg.dns_internal {
 			f(domain.clone());
 		}
-		for (domain, _) in &cfg.external {
+		for (domain, _) in &cfg.dns_external {
 			f(domain.clone());
 		}
 	}
@@ -86,10 +86,10 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 			});
 			render_tpl(&dao, &tpl, &tags);
 		};
-		for (domain, details) in &cfg.internal {
+		for (domain, details) in &cfg.dns_internal {
 			f(domain.clone(), details);
 		}
-		for (domain, details) in &cfg.external {
+		for (domain, details) in &cfg.dns_external {
 			f(domain.clone(), details);
 		}
 	}

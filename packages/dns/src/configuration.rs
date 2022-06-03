@@ -13,9 +13,9 @@ pub struct DomainDetails {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Configuration {
 	#[serde(default)]
-	pub internal: Map<String, DomainDetails>,
+	pub dns_internal: Map<String, DomainDetails>,
 	#[serde(default)]
-	pub external: Map<String, DomainDetails>,
+	pub dns_external: Map<String, DomainDetails>,
 }
 
 
