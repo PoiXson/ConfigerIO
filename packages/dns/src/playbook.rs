@@ -15,7 +15,6 @@ use configer_common::utils::{
 use crate::Configuration;
 use crate::configuration::{
 	DomainDetails,
-	get_hostnames,
 };
 
 
@@ -65,8 +64,7 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 		let tpl = load_tpl(dao.tpl_file.clone());
 		let tags = json!({
 			"timestamp": timestamp.clone(),
-			"internal_hosts": get_hostnames(&cfg.internal),
-			"external_hosts": get_hostnames(&cfg.external),
+			"cfg": &cfg,
 		});
 		render_tpl(&dao, &tpl, &tags);
 	}

@@ -30,11 +30,3 @@ impl Configuration {
 	}
 
 }
-
-pub fn get_hostnames(array: &Map<String, DomainDetails>) -> Vec<String> {
-	let mut result: Vec<String> = Vec::new();
-	for (hostname, _) in array {
-		result.push(hostname.clone());
-	}
-	result
-}
