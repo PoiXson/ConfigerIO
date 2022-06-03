@@ -298,6 +298,7 @@ if [[ $IS_ASK -eq $YES ]]; then
 	notice "Asking"
 fi
 echo
+DID_SOMETHING=$NO
 
 
 
@@ -326,6 +327,7 @@ function doInstall() {
 	fi
 	echo
 }
+
 function doUpdate() {
 	title "Updating.."
 	if [[ $IS_AUTO -eq $YES ]]; then
@@ -357,9 +359,66 @@ if [[ ! -z $EPEL_RELEASE_URL ]]; then
 	fi
 fi
 
-# remi repo
-if [[ ! -f /etc/yum.repos.d/remi.repo ]]; then
-	doInstall  "$REMI_RELEASE_URL"  "remi repo"
+# nginx repo
+if [[ $INSTALL_WEB -eq $YES ]]; then
+	if [[ ! -f /etc/yum.repos.d/nginx.repo ]]; then
+		doInstall  nginx-release  "nginx repo"
+	fi
+fi
+
+
+
+INSTALL_PACKAGES=""
+
+# pxn scripts
+if [[ ! -e /usr/bin/pxn/scripts/common.sh ]]; then
+	INSTALL_PACKAGES="$INSTALL_PACKAGES pxnscripts"
+fi
+
+# users
+if [[ $INSTALL_USERS -eq $YES ]]; then
+	INSTALL_PACKAGES="$INSTALL_PACKAGES configer-users"
+	DID_SOMETHING=$YES
+fi
+
+# fw
+if [[ $INSTALL_FW -eq $YES ]]; then
+	INSTALL_PACKAGES="$INSTALL_PACKAGES configer-fw"
+	DID_SOMETHING=$YES
+fi
+
+# dns
+if [[ $INSTALL_DNS -eq $YES ]]; then
+	INSTALL_PACKAGES="$INSTALL_PACKAGES configer-dns"
+	DID_SOMETHING=$YES
+fi
+
+# php
+if [[ $INSTALL_PHP -eq $YES ]]; then
+	# remi repo
+	if [[ ! -f /etc/yum.repos.d/remi.repo ]]; then
+		doInstall  "$REMI_RELEASE_URL"  "remi repo"
+	fi
+	\dnf module reset php             || exit 1
+	\dnf module install php:remi-8.1  || exit 1
+	INSTALL_PACKAGES="$INSTALL_PACKAGES configer-php"
+	DID_SOMETHING=$YES
+fi
+
+# web
+if [[ $INSTALL_WEB -eq $YES ]]; then
+	INSTALL_PACKAGES="$INSTALL_PACKAGES configer-web"
+	DID_SOMETHING=$YES
+fi
+
+# mail
+if [[ $INSTALL_MAIL -eq $YES ]]; then
+	INSTALL_PACKAGES="$INSTALL_PACKAGES configer-mail"
+	DID_SOMETHING=$YES
+fi
+
+if [[ ! -z $INSTALL_PACKAGES ]]; then
+	doInstall "$INSTALL_PACKAGES" "Configer packages"
 fi
 
 
@@ -368,11 +427,20 @@ fi
 doUpdate
 
 
-# enable remi repo
+
+#mkdir /var/log/named
+#chown named. /var/log/named
 
 
-doInstall  "pxnscripts"  "pxnScripts"
 
+if [[ $DID_SOMETHING -ne $YES ]]; then
+	warning "Didn't install any Configer service packages"
+	echo "for more info:"
+	echo "  $0 --help"
+	echo
+	exit 1
+fi
 
-echo "UNFINISHED"
-exit 1
+echo "Finished"
+echo
+exit 0
