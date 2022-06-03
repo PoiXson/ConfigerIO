@@ -189,9 +189,14 @@ function DisplayHelp() {
 	echo -e "${COLOR_BROWN}Usage:${COLOR_RESET}"
 	echo    "  install.sh [options]"
 	echo
+	echo -e "${COLOR_BROWN}Packages:${COLOR_RESET}"
+	echo -e "  ${COLOR_GREEN}users, fw${COLOR_RESET}"
+	echo -e "  ${COLOR_GREEN}web, php, dns, mail${COLOR_RESET}"
+	echo
 	echo -e "${COLOR_BROWN}Options:${COLOR_RESET}"
 	echo -e "  ${COLOR_GREEN}-y, --yes${COLOR_RESET}                 Automatically answer yes for all questions"
 	echo -e "  ${COLOR_GREEN}-D, --dry${COLOR_RESET}                 Dry-run, no changes will be performed by actions"
+	echo -e "  ${COLOR_GREEN}-A, --all${COLOR_RESET}                 Install packages for all supported services"
 	echo
 	echo -e "  ${COLOR_GREEN}-v, --verbose${COLOR_RESET}             Enable debug logs"
 	echo -e "  ${COLOR_GREEN}-h, --help${COLOR_RESET}                Display this help message and exit"
@@ -204,6 +209,12 @@ function DisplayHelp() {
 IS_AUTO=$NO
 IS_DRY=$NO
 VERBOSE=$NO
+INSTALL_USERS=$NO
+INSTALL_FW=$NO
+INSTALL_DNS=$NO
+INSTALL_PHP=$NO
+INSTALL_WEB=$NO
+INSTALL_MAIL=$NO
 while [ $# -gt 0 ]; do
 	case "$1" in
 	# auto install
@@ -221,6 +232,32 @@ while [ $# -gt 0 ]; do
 	-h|--help)
 		DisplayHelp
 		exit 1
+	;;
+	-A|--all)
+		INSTALL_USERS=$YES
+		INSTALL_FW=$YES
+		INSTALL_DNS=$YES
+		INSTALL_PHP=$YES
+		INSTALL_WEB=$YES
+		INSTALL_MAIL=$YES
+	;;
+	users)
+		INSTALL_USERS=$YES
+	;;
+	fw)
+		INSTALL_FW=$YES
+	;;
+	dns)
+		INSTALL_DNS=$YES
+	;;
+	php)
+		INSTALL_PHP=$YES
+	;;
+	web)
+		INSTALL_WEB=$YES
+	;;
+	mail)
+		INSTALL_MAIL=$YES
 	;;
 	*)
 		failure "Unknown argument: $1"
