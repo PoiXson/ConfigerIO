@@ -161,6 +161,7 @@ pub fn render_tpl(dao: &FileDAO, tpl: &Handlebars<'static>, tags: &serde_json::V
 	let rendered = tpl.render(&dao.tpl_file, &tags)
 		.unwrap_or_else(|e| panic!("Failed to render config: {} {}", dao.tpl_file.clone(), e));
 	// write temp file
+	trace!("Writing file: {}", dao.tmp_file.clone());
 	let mut handle = dao.tmp_handle.reopen().unwrap();
 	handle.write_all( rendered.as_bytes() ).unwrap();
 	rendered
