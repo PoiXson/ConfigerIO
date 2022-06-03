@@ -71,24 +71,25 @@ pub fn generate_configs(cfg: &Configuration, book: &Vec<FileDAO>) {
 
 	// /etc/named/<domain>.zone
 	{
-		let f = |dom: String, det: &DomainDetails| {
+		let f = |dom: String, det: &DomainDetails, is_int: bool| {
 			let dest_file = format!("/etc/named/{}.zone", dom.clone());
 			let dao = FileDAO::get_by_dest(&book, dest_file.clone());
 			debug!("Generating: {} as: {}", dao.dest_file.clone(), dao.tmp_file.clone());
 			let tpl = load_tpl(dao.tpl_file.clone());
 			let tags = json!({
 				"timestamp": timestamp.clone(),
+				"is_internal":   is_int,
+				"is_external": ! is_int,
 				"domain":  dom.clone(),
-				"ip":      det.ip.clone(),
 				"details": &det,
 			});
 			render_tpl(&dao, &tpl, &tags);
 		};
 		for (domain, details) in &cfg.dns_internal {
-			f(domain.clone(), details);
+			f(domain.clone(), details, true);
 		}
 		for (domain, details) in &cfg.dns_external {
-			f(domain.clone(), details);
+			f(domain.clone(), details, false);
 		}
 	}
 
